@@ -28,6 +28,10 @@ yarn start -- --reset-cache
 
 Runs the [jest](https://github.com/facebook/jest) test runner on the tests.
 
+#### `yarn format`
+
+Runs [prettier](https://github.com/prettier/prettier) over all app code with our settings. Should be run before commit.
+
 #### `yarn run ios`
 
 Like `yarn start`, but also attempts to open the app in the iOS Simulator if you're on a Mac and have it installed.
