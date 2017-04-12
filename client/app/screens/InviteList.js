@@ -51,11 +51,10 @@ export default class InviteListScreen extends React.Component {
   };
   constructor() {
     super();
-    this.state = { refreshing: false };
-
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
+    this.state = { refreshing: false };
 
     // Initial load of invites
     getInvites()
@@ -75,8 +74,8 @@ export default class InviteListScreen extends React.Component {
           <Text note>
             {Moment(rowData.showtime).format('dddd, MMMM D @ h:mm a')}
           </Text>
-          <Text note style={styles[rowData.status]}>
-            {capitalize(rowData.status)}
+          <Text note style={styles[rowData.myStatus]}>
+            {capitalize(rowData.myStatus)}
           </Text>
         </Body>
         <Right style={styles.listArrow}>
