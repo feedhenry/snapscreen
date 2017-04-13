@@ -98,17 +98,11 @@ const styles = StyleSheet.create({
   textInput: {
     height: 40,
     fontSize: 20,
-    //backgroundColor: '#FFF'
   },
   welcome: {
     fontSize: 15,
     textAlign: 'center',
     margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
   transparentButton: {
     marginTop: 20,
