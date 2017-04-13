@@ -2,12 +2,13 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Font, AppLoading } from 'expo';
-
+import LoginScreen from './screens/LoginScreen';
 import InviteListScreen from './screens/InviteList';
 import InviteDetailScreen from './screens/InviteDetail';
 
 const Navigator = StackNavigator({
   // First item in this object is the first screen displayed
+  LoginScreen: { screen: LoginScreen },
   InvitesList: { screen: InviteListScreen },
   InviteDetail: { screen: InviteDetailScreen },
 });
