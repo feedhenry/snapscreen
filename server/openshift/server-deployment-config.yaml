@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  name: snapscreen-server
+  labels:
+    app: snapscreen-server
+spec:
+  triggers:
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - snapscreen-server
+        from:
+          kind: ImageStreamTag
+          namespace: snapscreen
+          name: 'snapscreen-server:latest'
+    - type: ConfigChange
+  replicas: 1
+  selector:
+    deploymentconfig: snapscreen-server
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: snapscreen-server
+        deploymentconfig: snapscreen-server
+    spec:
+      containers:
+        - name: snapscreen-server
+          image: >-
+            172.30.72.170:5000/snapscreen/snapscreen-server@sha256:e39f9a5c9d24dc2aba2f3f9e1c21747617e4697562bd12b151077c764578b536
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          imagePullPolicy: Always
+          env:
+            - name: MONGODBHOST
+              value: mongo
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}

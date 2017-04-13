@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    name: mongo
+  name: mongo-controller
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: mongo
+    spec:
+      containers:
+      - image: registry.access.redhat.com/rhscl/mongodb-32-rhel7@sha256:26f2ea6ddca533ea4213b2083f4c4f4066e409900e828af4b58f35f6f7b360e1
+        name: mongo
+        ports:
+        - name: mongo
+          containerPort: 27017
+          protocol: TCP
+        volumeMounts:
+            - name: mongodb-data
+              mountPath: /var/lib/mongodb/data
+        env:
+            - name: MONGODB_USER
+              value: mongodb
+            - name: MONGODB_PASSWORD
+              value: mongodb
+            - name: MONGODB_DATABASE
+              value: mongodb
+            - name: MONGODB_ADMIN_PASSWORD
+              value: mongodb
+      volumes:
+        - name: mongodb-data
+          emptyDir: {}

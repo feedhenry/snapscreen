@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "exit 0",
-    "start": "DEBUG=express:* node server.js"
+    "start": "MONGOHOST=$MONGOHOST;DEBUG=express:* node server.js"
   },
   "engine": {
     "node": "*",

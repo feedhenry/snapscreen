@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ImageStream
+metadata:
+  name: snapscreen-server
+  labels:
+    app: snapscreen-server
+spec: {}
+status:
+  tags:
+    - tag: latest
