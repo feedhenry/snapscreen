@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  name: snapscreen-server
+  labels:
+    app: snapscreen-server
+spec:
+  triggers:
+    - type: Generic
+      generic:
+        secret: b5b9e044b32dbbb3
+    - type: GitHub
+      github:
+        secret: 342b6ad0e6758cc7
+    - type: ImageChange
+      imageChange:
+        lastTriggeredImageID: >-
+          registry.access.redhat.com/rhscl/nodejs-4-rhel7@sha256:9b13686845c7643b44c64aa61189e02519d8523d8107340ce8525f7bea7e19e5
+    - type: ConfigChange
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/feedhenry/snapscreen.git'
+      ref: master
+    contextDir: /server
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        namespace: openshift
+        name: 'nodejs:4'
+      env:
+        - name: PORT
+          value: '8080'
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'snapscreen-server:latest'
