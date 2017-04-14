@@ -4,7 +4,8 @@ This is a backend for the Snapscreen App. It includes an API to query for invite
 
 - GET /invites
   - Returns a list of the invites sent from the authenticated host
-  - Response: 
+  - Response:
+  	``` 
     [ { 
       id: string, 
       movie_id: string, 
@@ -12,18 +13,22 @@ This is a backend for the Snapscreen App. It includes an API to query for invite
       status: enum[ accepted | declined | unanswered ], 
       invitees: array[ { id, status } ]
     } ]
+    ```
 
 - POST /invites
   - Creates a new invite
   - Body (x-www-form-urlencoded):
+    ```
     { 
       movie_id: string, 
       invitees: array[ { id, status } ]
     }
+    ```
 
 - GET /invites/<invite_id>/
   - Returns the data for a specific invite
   - Response:
+  	```
   	{ 
       id: string, 
       movie_id: string, 
@@ -31,20 +36,24 @@ This is a backend for the Snapscreen App. It includes an API to query for invite
       status: enum[ accepted | declined | unanswered ], 
       invitees: array[ { id, status } ]
     }
+    ```
 
 - PATCH /invites/<invite_id>/
   - Updates the data for a specific invite
   - Body (x-www-form-urlencoded):
+  	```
   	{ 
       movie_id: string, 
       host_id: string, 
       status: enum[ accepted | declined | unanswered ], 
       invitees: array[ { id, status } ]
     }
+    ```
 
 - GET /movies?lat=<latitude>&lng=<longitude>
   - Returns the list of movies shown nearby the provided location
   - Response:
+    ```
     [ {
       id: string,
       title: string,
@@ -67,6 +76,7 @@ This is a backend for the Snapscreen App. It includes an API to query for invite
           primary: string
         }
     } ]
+    ```
 
 ## Setup
 
