@@ -22,7 +22,7 @@ var InviteSchema = new Schema({
       type: String,
       enum: ['accepted', 'declined', 'unanswered']
     }],
-    default: ['unanswered']
+    default: ['accepted']
   },
   invitees: [InviteeSchema]
 });

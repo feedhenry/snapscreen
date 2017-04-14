@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Route
+metadata:
+  name: snapscreen-server
+  labels:
+    app: snapscreen-server
+spec:
+  to:
+    kind: Service
+    name: snapscreen-server
+    weight: 100
+  port:
+    targetPort: 8080-tcp
+  wildcardPolicy: None
