@@ -37,7 +37,7 @@ spec:
           terminationMessagePath: /dev/termination-log
           imagePullPolicy: Always
           env:
-            - name: MONGODBHOST
+            - name: MONGOHOST
               value: mongo
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
