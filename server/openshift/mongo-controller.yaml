@@ -27,7 +27,7 @@ spec:
             - name: MONGODB_PASSWORD
               value: mongodb
             - name: MONGODB_DATABASE
-              value: mongodb
+              value: snapscreen
             - name: MONGODB_ADMIN_PASSWORD
               value: mongodb
       volumes:
