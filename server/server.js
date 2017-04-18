@@ -14,7 +14,7 @@ var express = require('express'),
 
 mongoose.Promise = global.Promise;
 //TODO: connect to configuration mongodb
-mongoose.connect('mongodb://' + mongoHost + '/mongodb', function(err) {
+mongoose.connect('mongodb://mongodb:mongodb@' + mongoHost + '/snapscreen', function(err) {
     if (err) console.log('\x1b[31m%s\x1b[0m', '[ERROR]' ,'Can\'t connect to MongoDB. Try starting it up with `mongod`');
 });
 
