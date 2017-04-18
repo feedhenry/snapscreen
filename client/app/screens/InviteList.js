@@ -14,20 +14,21 @@ import {
   Content,
   Icon,
   Left,
+  ListItem,
   Right,
   Text,
   Thumbnail,
-  ListItem,
+  variables,
 } from 'native-base';
-import Moment from 'moment';
 import { getInvites } from '../api';
+import { formatShowtime } from '../utils';
 
 const styles = {
   accepted: {
-    color: 'green',
+    color: variables.brandSuccess,
   },
   declined: {
-    color: 'red',
+    color: variables.brandDanger,
   },
   unanswered: {
     color: 'gray',
@@ -57,6 +58,7 @@ export default class InviteListScreen extends React.Component {
     this.state = { refreshing: false };
 
     // Initial load of invites
+    // TODO: Not really sure if doing this in the constructor is best practice?
     getInvites()
       .then(invites => {
         this.setState({ dataSource: ds.cloneWithRows(invites) });
@@ -67,13 +69,14 @@ export default class InviteListScreen extends React.Component {
   }
   _renderRow(rowData) {
     return (
-      <ListItem onPress={() => this.props.navigation.navigate('InviteDetail')}>
+      <ListItem
+        onPress={() =>
+          this.props.navigation.navigate('InviteDetail', { invite: rowData })}
+      >
         <Image source={{ uri: rowData.thumbnail }} style={styles.thumbnail} />
         <Body>
           <Text>{rowData.title}</Text>
-          <Text note>
-            {Moment(rowData.showtime).format('dddd, MMMM D @ h:mm a')}
-          </Text>
+          <Text note>{formatShowtime(rowData.showtime)}</Text>
           <Text note style={styles[rowData.myStatus]}>
             {capitalize(rowData.myStatus)}
           </Text>
@@ -101,24 +104,32 @@ export default class InviteListScreen extends React.Component {
     if (this.state.dataSource) {
       // TODO: Replace with FlatList when we upgrade to react-native >= 0.43
       return (
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this._renderRow.bind(this)}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this._refreshData.bind(this)}
+        <Container>
+          <Content>
+            <ListView
+              dataSource={this.state.dataSource}
+              renderRow={this._renderRow.bind(this)}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._refreshData.bind(this)}
+                />
+              }
             />
-          }
-        />
+          </Content>
+        </Container>
       );
     } else {
       return (
-        <ActivityIndicator
-          animating={this.state.animating}
-          style={[styles.centering, { height: 80 }]}
-          size="large"
-        />
+        <Container>
+          <Content>
+            <ActivityIndicator
+              animating={this.state.animating}
+              style={[styles.centering, { height: 80 }]}
+              size="large"
+            />
+          </Content>
+        </Container>
       );
     }
   }
