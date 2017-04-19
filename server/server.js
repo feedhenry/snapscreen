@@ -37,7 +37,8 @@ app.use(app.keycloak.middleware());
 app.use(app.keycloak.middleware( { logout: '/'} ));
 
 /////////////////////////////////////////////////////////////////////////////////////
-// just steping back from Emilio code tried my own implementation
+// just steping back from Emilio code tried my own implementation, seems to be redirecting
+// to keycloak login screen
 app.get('/test', app.keycloak.protect(), function(req, res){
   var myToken = jwt.sign({username:req.body.user}, key.client_key_password);
   res.json({

@@ -12,5 +12,8 @@
       "token-timeout": 10,
       "client-keystore-type": "jks"
     }
-  }
+  },
+
+  "client_key_password": "password"
+
 }
