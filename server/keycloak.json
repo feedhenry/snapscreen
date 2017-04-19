@@ -3,5 +3,14 @@
   "auth-server-url": "http://localhost:8080/auth",
   "ssl-required": "none",
   "resource": "snapscreen",
-  "public-client": true
+  "credentials": {
+    "jwt": {
+      "client-key-password": "password",
+      "client-keystore-file": "./keystore.jks",
+      "client-keystore-password": "password",
+      "client-key-alias": "snapscreen",
+      "token-timeout": 10,
+      "client-keystore-type": "jks"
+    }
+  }
 }

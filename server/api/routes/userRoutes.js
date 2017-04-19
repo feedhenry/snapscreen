@@ -8,8 +8,8 @@ module.exports = function(app) {
       .post(user.login)
       .get(user.login);//added a get for testing
 
-  app.route('/register', app.keycloak.protect())
+  app.route('/register',app.keycloak.protect())
     .post(user.register)
-    .get(user.register);
+    .get(user.register);//added a get for testing
 
 };

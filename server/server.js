@@ -3,7 +3,8 @@ const fs = require('fs');
 //const session = require('express-session');
 var expressJwt = require('express-jwt');
 var jwt = require('jsonwebtoken');
-var keystore = require('./keystore.json');
+var keycloak = require('./keycloak.json');
+
 
 var express = require('express'),
   app = express(),
@@ -13,16 +14,20 @@ var express = require('express'),
   bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;
-//TODO: connect to configuration mongodb
-mongoose.connect('mongodb://mongodb:mongodb@' + mongoHost + '/snapscreen', function(err) {
+//TODO: connect to configuration mongodb  mongodb://mongo-controller/snapscreen
+/*mongoose.connect('mongodb://mongodb:mongodb@' + mongoHost + '/snapscreen', function(err) {
     if (err) console.log('\x1b[31m%s\x1b[0m', '[ERROR]' ,'Can\'t connect to MongoDB. Try starting it up with `mongod`');
+});*/
+mongoose.connect('mongodb://'+ mongoHost + '/snapscreen', function(err) {
+  if (err) console.log('\x1b[31m%s\x1b[0m', '[ERROR]' ,'Can\'t connect to MongoDB. Try starting it up with `mongod`');
 });
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //app.use(expressJwt({secret: 'not sure what goes here for keycloak'}).unless({path: ['/login']}));
-app.use(expressJwt(keystore).unless({path: ['/login', '/register']}));
+app.use(expressJwt({secret: "password"}).unless({path: ['/login', '/register','/']}));
 
 
 app.keycloak = new Keycloak({});
