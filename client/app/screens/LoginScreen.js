@@ -1,139 +1,117 @@
 import React from 'react';
-import { AppRegistry, StyleSheet, Text, View, TextInput, ScrollView, } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  ScrollView
+} from 'react-native';
+import {
+  Container,
+  Content,
+  Button,
+  Label,
+  Grid,
+  Col,
+  Form,
+  Item,
+  Input,
+  Header,
+  Left,
+  Right,
+  Body,
+  Title
+} from 'native-base';
+import { Font } from 'expo';
 
-import Container from '../components/Container';
-import Button from '../components/Button';
-import Label from '../components/Label';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 function press() {
   // TODO implement
 }
 
 export default class LoginScreen extends React.Component {
+  /*async componentDidMount() {
+    await Font.loadAsync({
+      'Roboto_medium': require('../assets/fonts/Roboto_medium.ttf'),
+    });
+    this.setState({ fontLoaded: true });
+  }*/
   static navigationOptions = {
     title: 'Login',
   };
   render() {
     return (
-      <ScrollView style={styles.scroll}>
+      <Container style={{padding: 30}}>
+        
+        <Content>
+          
+          <Grid style={{marginTop: '5%'}}>
+            <Col></Col>
+            <Col>
+              <Button outline small transparent>
+                <Text small>Forgot Password</Text>
+              </Button>
+            </Col>
+          </Grid>
+          
+          <Form>
+            <Item style={{marginBottom: '5%', marginTop: '10%'}}>
+              <Input placeholder="Username" />
+            </Item>
+            
+            <Item last style={{marginBottom: '10%'}}>
+              <Input placeholder="Password" />
+            </Item>
+            
+            <Grid style={{marginBottom: '10%'}}>
+              <Col>
+                <Button full transparent>
+                  <View style={styles.inline}>
+                    <Icon name="close" size={30} />
+                    <Text style={[styles.buttonBigText]}>  Cancel </Text>
+                  </View>
+                </Button>
+              </Col>
+              <Col>
+                <Button full transparent>
+                  <View style={styles.inline}>
+                    <Icon name="sign-in" size={30} />
+                    <Text style={[styles.buttonBigText]}>  Login </Text>
+                  </View>
+                </Button>
+              </Col>
+            </Grid>
 
-
-        <Container>
-          <Button
-              label="Forgot Login/Pass"
-              styles={{button: styles.alignRight, label: styles.label}}
-              // onPress={this.press.bind(this)}
-          />
-        </Container>
-
-        <Container>
-          <Label text="Username or Email" />
-          <TextInput
-              style={styles.textInput}
-          />
-        </Container>
-        <Container>
-            <Label text="Password" />
-            <TextInput
-                secureTextEntry={true}
-                style={styles.textInput}
-            />
-        </Container>
-
-        <Container>
-          <Button
-              styles={{button: styles.transparentButton}}
-              //onPress={this.press.bind(this)}
-          >
-              <View style={styles.inline}>
-                  <Icon name="google-plus" size={30} color="#db3236" />
-                  <Text style={[styles.buttonRedText, styles.buttonBigText]}>  Signin </Text>
-                  <Text style={styles.buttonRedText}>with Google</Text>
-              </View>
+          </Form>
+          
+          <Button full transparent>
+            <View style={styles.inline}>
+              <Icon name="google-plus-square" size={40} color="#db3236" />
+              <Text style={[styles.buttonRedText, styles.buttonBigText]}>  Signin with Google</Text>
+            </View>
           </Button>
-        </Container>
-
-        <View style={styles.footer}>
-          <Container>
-              <Button
-                  label="Sign In"
-                  styles={{button: styles.primaryButton, label: styles.buttonWhiteText}}
-                  //onPress={this.press.bind(this)}
-              />
-          </Container>
-          <Container>
-              <Button
-                  label="CANCEL"
-                  styles={{label: styles.buttonBlackText}}
-                  //onPress={this.press.bind(this)}
-              />
-          </Container>
-        </View>
-
-      </ScrollView>
+         
+        </Content>
+      
+      </Container>
+    
     );
   }
 }
 
 const styles = StyleSheet.create({
-  scroll: {
-    backgroundColor: '#F5FCFF',
-    padding: 30,
-    flexDirection: 'column'
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  label: {
-    color: '#0d8898',
-    fontSize: 15
-  },
-  alignRight: {
-      alignSelf: 'flex-end'
-  },
-  textInput: {
-    height: 40,
+  buttonBigText: {
     fontSize: 20,
-  },
-  welcome: {
-    fontSize: 15,
-    textAlign: 'center',
-    margin: 10,
-  },
-  transparentButton: {
-    marginTop: 20,
-    borderColor: '#db3236',
-    borderWidth: 2
+    fontWeight: 'bold'
   },
   buttonRedText: {
-      fontSize: 20,
-      color: '#db3236'
-  },
-  buttonBigText: {
-      fontSize: 20,
-      fontWeight: 'bold'
+    color: '#db3236'
   },
   inline: {
-      flexDirection: 'row'
+    flexDirection: 'row'
   },
-  buttonWhiteText: {
-    fontSize: 15,
-    color: '#FFF',
-  },
-  buttonBlackText: {
-      fontSize: 15,
-      color: '#595856'
-  },
-  primaryButton: {
-      backgroundColor: '#34A853'
-  },
-  footer: {
-     marginTop: 20
-  }
 });
 
 AppRegistry.registerComponent('LoginScreen', () => LoginScreen);
