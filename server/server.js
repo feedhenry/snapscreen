@@ -3,7 +3,7 @@ const fs = require('fs');
 //const session = require('express-session');
 var expressJwt = require('express-jwt');
 var jwt = require('jsonwebtoken');
-var keycloak = require('./keycloak.json');
+var key = require('./keycloak.json');
 
 
 var express = require('express'),
@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //app.use(expressJwt({secret: 'not sure what goes here for keycloak'}).unless({path: ['/login']}));
-app.use(expressJwt({secret: "password"}).unless({path: ['/login', '/register','/']}));
+app.use(expressJwt({secret: key.client_key_password}).unless({path: ['/login', '/register','/','/test']}));
 
 
 app.keycloak = new Keycloak({});
@@ -36,6 +36,17 @@ app.keycloak = new Keycloak({});
 app.use(app.keycloak.middleware());
 app.use(app.keycloak.middleware( { logout: '/'} ));
 
+/////////////////////////////////////////////////////////////////////////////////////
+// just steping back from Emilio code tried my own implementation
+app.get('/test', app.keycloak.protect(), function(req, res){
+  var myToken = jwt.sign({username:req.body.user}, key.client_key_password);
+  res.json({
+    user: 'test',
+    route: 'test',
+    token: myToken
+  });
+});
+///////////////////////////////////////////////////////////////////////////////////
 var routes = require('./api/routes');
 routes(app);
 
