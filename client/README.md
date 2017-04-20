@@ -7,12 +7,12 @@ Below you'll find information about performing common tasks. The full, up-to-dat
 ## Getting Started
 
 1. [Install Node.js >= 7.8.0](https://nodejs.org/en/download/package-manager/)
-2. [Install yarn >= 0.22.0](https://yarnpkg.com/lang/en/docs/install/)
+2. [Install yarn >= 0.23.2](https://yarnpkg.com/lang/en/docs/install/)
 3. Run `yarn install`
 
 ## Available Scripts
 
-### `yarn start`
+#### `yarn start`
 
 Runs the app in development mode.
 
