@@ -16,12 +16,7 @@ import {
   Col,
   Form,
   Item,
-  Input,
-  Header,
-  Left,
-  Right,
-  Body,
-  Title
+  Input
 } from 'native-base';
 import { Font } from 'expo';
 
