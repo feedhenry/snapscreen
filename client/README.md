@@ -12,7 +12,7 @@ Below you'll find information about performing common tasks. The full, up-to-dat
 
 ## Available Scripts
 
-### `yarn start`
+#### `yarn start`
 
 Runs the app in development mode.
 
