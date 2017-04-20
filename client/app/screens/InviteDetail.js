@@ -135,8 +135,8 @@ export default class InviteDetailScreen extends React.Component {
                 {this.invite.organizer.name} (organizer)
               </Text>
             </ListItem>
-            <For each="invitee" of={this.invite.invitees}>
-              <ListItem>
+            <For each="invitee" index="idx" of={this.invite.invitees}>
+              <ListItem key={idx}>
                 <Choose>
                   <When condition={invitee.status == 'accepted'}>
                     <Icon name="checkmark-circle" style={styles.accepted} />
