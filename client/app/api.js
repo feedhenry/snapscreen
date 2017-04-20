@@ -115,14 +115,11 @@ let mockInviteData = [
 
 function getInvites() {
   return new Promise((resolve, reject) => {
-    setTimeout(
-      () => {
-        resolve(mockInviteData);
-        // Simulate data being changed
-        mockInviteData = mockInviteData.slice(-2);
-      },
-      1000
-    );
+    setTimeout(() => {
+      resolve(mockInviteData);
+      // Simulate data being changed
+      mockInviteData = mockInviteData.slice(-2);
+    }, 1000);
   });
 }
 
