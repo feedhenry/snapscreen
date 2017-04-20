@@ -37,14 +37,11 @@ const styles = {
   movieCard: {
     marginTop: 10,
   },
-  title: {
-    paddingTop: 15,
-  },
   backdrop: {
     flex: 1,
-    height: 200,
+    height: 180,
   },
-  sectionTitle: {
+  detailLabel: {
     fontWeight: 'bold',
   },
 
@@ -93,7 +90,7 @@ export default class InviteDetailScreen extends React.Component {
           </View>
 
           <Card style={styles.movieCard}>
-            <CardItem style={styles.title}>
+            <CardItem header>
               <Body>
                 <H3>{this.invite.title}</H3>
                 <Text>{formatShowtime(this.invite.showtime)}</Text>
@@ -107,18 +104,16 @@ export default class InviteDetailScreen extends React.Component {
             </CardItem>
             <CardItem>
               <Body>
-                <Text style={styles.sectionTitle}>Synopsis</Text>
-                <Text>{this.invite.synopsis}</Text>
-              </Body>
-            </CardItem>
-            <CardItem>
-              <Body>
                 <Text>
-                  <Text style={styles.sectionTitle}>Runtime: </Text>
+                  <Text style={styles.detailLabel}>Synopsis: </Text>
+                  {this.invite.synopsis}
+                </Text>
+                <Text>
+                  <Text style={styles.detailLabel}>Runtime: </Text>
                   {this.invite.runtime} min
                 </Text>
                 <Text>
-                  <Text style={styles.sectionTitle}>Rating: </Text>
+                  <Text style={styles.detailLabel}>Rating: </Text>
                   {this.invite.rating * 100}%
                 </Text>
               </Body>
@@ -126,9 +121,9 @@ export default class InviteDetailScreen extends React.Component {
           </Card>
 
           <Card>
-            <ListItem itemHeader first>
-              <Text style={styles.sectionTitle}>INVITED</Text>
-            </ListItem>
+            <CardItem header bordered>
+              <Text>INVITED</Text>
+            </CardItem>
             <ListItem>
               <Icon name="checkmark-circle" style={styles.accepted} />
               <Text style={styles.invitee}>
@@ -151,6 +146,17 @@ export default class InviteDetailScreen extends React.Component {
                 <Text style={styles.invitee}>{invitee.name}</Text>
               </ListItem>
             </For>
+          </Card>
+
+          <Card>
+            <CardItem header bordered>
+              <Text>NOTES</Text>
+            </CardItem>
+            <CardItem>
+              <Body>
+                <Text>{this.invite.notes}</Text>
+              </Body>
+            </CardItem>
           </Card>
 
         </Content>
