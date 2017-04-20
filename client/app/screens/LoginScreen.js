@@ -19,15 +19,7 @@ import {
   Input
 } from 'native-base';
 import { Font } from 'expo';
-  Input,
-  Header,
-  Left,
-  Right,
-  Body,
-  Title
-} from 'native-base';
-import { Font } from 'expo';
-
+ 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 function press() {
