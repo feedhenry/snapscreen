@@ -1,10 +1,12 @@
 'use strict';
+const Keycloak = require('keycloak-connect');
+const keycloak = new Keycloak({});
 
 var mongoose = require('mongoose'),
   Invite = require('../models/inviteModel');
 
 
-exports.listUserInvites = function(req, res) {
+exports.listUserInvites = keycloak.protect(), function(req, res) {
   //TODO: get userId from authentication data
   var userId = 'test-user-id';
   Invite.find({ host_id: userId }, function(err, invites) {
@@ -13,7 +15,7 @@ exports.listUserInvites = function(req, res) {
   });
 };
 
-exports.createInvite = function(req, res) {
+exports.createInvite = keycloak.protect(), function(req, res) {
   //TODO: get userId from authentication data
   var userId = 'test-user-id';
   var newInvite = new Invite(req.body);
@@ -24,14 +26,14 @@ exports.createInvite = function(req, res) {
   });
 };
 
-exports.readInvite = function(req, res) {
+exports.readInvite = keycloak.protect(), function(req, res) {
   Invite.findById(req.params.inviteId, function(err, invite) {
     if (err) res.status(500).send(err);
     res.json(invite);
   });
 };
 
-exports.updateInvite = function(req, res) {
+exports.updateInvite = keycloak.protect(), function(req, res) {
   Invite.findOneAndUpdate({ '_id': req.params.inviteId }, req.body, {new: true}, function(err, invite) {
     if (err) res.status(500).send(err);
     res.json(invite);
