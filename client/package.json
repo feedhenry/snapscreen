@@ -24,7 +24,7 @@
     "jsx-control-statements": "^3.1.5",
     "moment": "^2.18.1",
     "native-base": "2.1.0",
-    "prettier": "^0.22.0",
+    "prettier": "^1.2.2",
     "react": "~15.4.0",
     "react-native": "0.42.3",
     "react-navigation": "^1.0.0-beta.7"
