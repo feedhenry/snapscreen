@@ -41,7 +41,7 @@ roi.get(options)
     });
 });
 
-
+//all tests pass using initial access token , client is created
 registration.create(config.registration, config.testClient).then((v) => {
   config.registration.accessToken = v.registrationAccessToken;
 
@@ -53,10 +53,10 @@ registration.create(config.registration, config.testClient).then((v) => {
         Authorization: 'Bearer ' + token
       }
     };
-    console.log(opt);
+
   roi.get(opt)
       .then(x => {
-                  t.equal(JSON.parse(x.body).message, 'secured');
+                  t.equal(JSON.parse(x.body).message, 'test');
                   t.end();
       })
       .catch(e => t.fail(e));

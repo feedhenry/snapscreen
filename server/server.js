@@ -45,11 +45,7 @@ app.use(app.keycloak.middleware( { logout: '/'} ));
 
 // endpoint tests
 app.get('/test', app.keycloak.protect(), function(req, res){
-  res.json({
-    user: 'test',
-    route: 'test',
-    token: myToken
-  });
+  res.json({ message: 'test' });
 });
 
 app.get('/test2', function(req, res){
