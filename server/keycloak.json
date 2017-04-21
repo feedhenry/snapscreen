@@ -1,19 +1,7 @@
 {
   "realm": "test",
+  "bearer-only": true,
   "auth-server-url": "http://localhost:8080/auth",
   "ssl-required": "none",
-  "resource": "snapscreen",
-  "credentials": {
-    "jwt": {
-      "client-key-password": "password",
-      "client-keystore-file": "./keystore.jks",
-      "client-keystore-password": "password",
-      "client-key-alias": "snapscreen",
-      "token-timeout": 10,
-      "client-keystore-type": "jks"
-    }
-  },
-
-  "client_key_password": "password"
-
+  "resource": "snapscreen"
 }

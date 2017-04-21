@@ -1,8 +1,8 @@
 const Keycloak = require('keycloak-connect');
 const fs = require('fs');
-//const session = require('express-session');
-var expressJwt = require('express-jwt');
-var jwt = require('jsonwebtoken');
+const session = require('express-session');
+//var expressJwt = require('express-jwt');
+//var jwt = require('jsonwebtoken');
 var key = require('./keycloak.json');
 
 
@@ -26,28 +26,39 @@ mongoose.connect('mongodb://'+ mongoHost + '/snapscreen', function(err) {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//app.use(expressJwt({secret: 'not sure what goes here for keycloak'}).unless({path: ['/login']}));
-app.use(expressJwt({secret: key.client_key_password}).unless({path: ['/login', '/register','/','/test']}));
+//pulled back in sessions as all the examples have it ???
+////////////////////////////////////////////////////////////////////////////////////
+app.use(session({
+  secret:'password',
+  resave: false,
+  saveUninitialized: true,
+  store: memoryStore
+}));
 
 
-app.keycloak = new Keycloak({});
-
+var memoryStore = new session.MemoryStore();
+app.keycloak = new Keycloak({ store: memoryStore });
 
 app.use(app.keycloak.middleware());
 app.use(app.keycloak.middleware( { logout: '/'} ));
 
-/////////////////////////////////////////////////////////////////////////////////////
-// just steping back from Emilio code tried my own implementation, seems to be redirecting
-// to keycloak login screen
+// endpoint tests
 app.get('/test', app.keycloak.protect(), function(req, res){
-  var myToken = jwt.sign({username:req.body.user}, key.client_key_password);
   res.json({
     user: 'test',
     route: 'test',
     token: myToken
   });
 });
+
+app.get('/test2', function(req, res){
+  res.json({
+    user:'test2',
+    route: 'test2'
+  });
+});
 ///////////////////////////////////////////////////////////////////////////////////
+
 var routes = require('./api/routes');
 routes(app);
 
