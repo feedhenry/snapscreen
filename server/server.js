@@ -1,10 +1,6 @@
 const Keycloak = require('keycloak-connect');
 const fs = require('fs');
 const session = require('express-session');
-//var expressJwt = require('express-jwt');
-//var jwt = require('jsonwebtoken');
-//var key = require('./keycloak.json');
-
 
 var express = require('express'),
   app = express(),
@@ -26,18 +22,7 @@ mongoose.connect('mongodb://'+ mongoHost + '/snapscreen', function(err) {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//pulled back in sessions as all the examples have it ???
-////////////////////////////////////////////////////////////////////////////////////
-/*app.use(session({
-  secret:'password',
-  resave: false,
-  saveUninitialized: true,
-  store: memoryStore
-}));
-
-
-var memoryStore = new session.MemoryStore();
-app.keycloak = new Keycloak({ store: memoryStore });*/
+// keycloak-connect needs an object for new Keycloak() to compile
 app.keycloak = new Keycloak({});
 
 app.use(app.keycloak.middleware());
@@ -47,11 +32,11 @@ app.use(app.keycloak.middleware( { logout: '/'} ));
 app.get('/test', app.keycloak.protect(), function(req, res){
   res.json({ message: 'test' });
 });
-
+//endpoint test
 app.get('/test2', function(req, res){
   res.json({message: 'test2'});
 });
-///////////////////////////////////////////////////////////////////////////////////
+
 
 var routes = require('./api/routes');
 routes(app);
