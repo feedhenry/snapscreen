@@ -3,7 +3,7 @@ const fs = require('fs');
 const session = require('express-session');
 //var expressJwt = require('express-jwt');
 //var jwt = require('jsonwebtoken');
-var key = require('./keycloak.json');
+//var key = require('./keycloak.json');
 
 
 var express = require('express'),
@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 
 //pulled back in sessions as all the examples have it ???
 ////////////////////////////////////////////////////////////////////////////////////
-app.use(session({
+/*app.use(session({
   secret:'password',
   resave: false,
   saveUninitialized: true,
@@ -37,7 +37,8 @@ app.use(session({
 
 
 var memoryStore = new session.MemoryStore();
-app.keycloak = new Keycloak({ store: memoryStore });
+app.keycloak = new Keycloak({ store: memoryStore });*/
+app.keycloak = new Keycloak({});
 
 app.use(app.keycloak.middleware());
 app.use(app.keycloak.middleware( { logout: '/'} ));
@@ -52,10 +53,7 @@ app.get('/test', app.keycloak.protect(), function(req, res){
 });
 
 app.get('/test2', function(req, res){
-  res.json({
-    user:'test2',
-    route: 'test2'
-  });
+  res.json({message: 'test2'});
 });
 ///////////////////////////////////////////////////////////////////////////////////
 

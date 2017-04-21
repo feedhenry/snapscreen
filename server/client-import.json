@@ -1,0 +1,5 @@
+{
+  "resource": "snapscreen",
+  "enabled": true,
+  "bearerOnly": true
+}

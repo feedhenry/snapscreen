@@ -17,7 +17,7 @@ test('Should test public route with no credentials.', t => {
 
 roi.get(options)
     .then(x => {
-                t.equal(JSON.parse(x.body).message, 'public');
+                t.equal(JSON.parse(x.body).message, 'test2');
                 t.end();
     })
     .catch(e => {
