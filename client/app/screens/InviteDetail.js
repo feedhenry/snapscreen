@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, Linking, Platform, TouchableOpacity } from 'react-native';
 import {
   Body,
   Button,
@@ -20,6 +20,7 @@ import {
 import { formatShowtime } from '../utils';
 
 const styles = {
+  // General
   content: {
     marginVertical: 10,
     marginHorizontal: 8,
@@ -34,8 +35,29 @@ const styles = {
     marginLeft: 5,
   },
 
+  // Movie card
   movieCard: {
     marginTop: 10,
+  },
+  movieTitle: {
+    lineHeight: 26,
+  },
+  row: {
+    flexDirection: 'row',
+  },
+  headerIcon: {
+    width: 14,
+    marginRight: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  showtimeText: {
+    fontSize: 16,
+  },
+  locationLink: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: variables.brandInfo,
   },
   backdrop: {
     flex: 1,
@@ -45,6 +67,7 @@ const styles = {
     fontWeight: 'bold',
   },
 
+  // Invited card
   accepted: {
     color: variables.brandSuccess,
   },
@@ -70,6 +93,26 @@ export default class InviteDetailScreen extends React.Component {
     // workarounds
     this.invite = this.props.navigation.state.params.invite;
   }
+  _buildMapURI() {
+    let lat = this.invite.location.lat;
+    let long = this.invite.location.long;
+    let name = encodeURIComponent(this.invite.location.name);
+    return Platform.select({
+      ios: `http://maps.apple.com/?ll=${lat},${long}&q=${name}`,
+      android: `http://maps.google.com/maps?ll=${lat},${long}&q=${name}`,
+    });
+  }
+  _handleLocationClick() {
+    let uri = this._buildMapURI();
+    console.log(uri);
+    Linking.canOpenURL(uri).then(supported => {
+      if (supported) {
+        Linking.openURL(uri);
+      } else {
+        console.log('Unable to open map with URI:' + uri);
+      }
+    });
+  }
   render() {
     return (
       <Container>
@@ -92,8 +135,27 @@ export default class InviteDetailScreen extends React.Component {
           <Card style={styles.movieCard}>
             <CardItem header>
               <Body>
-                <H3>{this.invite.title}</H3>
-                <Text>{formatShowtime(this.invite.showtime)}</Text>
+                <H3 style={styles.movieTitle}>{this.invite.title}</H3>
+                <View style={styles.row}>
+                  <View style={styles.headerIcon}>
+                    <Icon name="calendar" style={styles.showtimeText} />
+                  </View>
+                  <Text style={styles.showtimeText}>
+                    {formatShowtime(this.invite.showtime)}
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  onPress={this._handleLocationClick.bind(this)}
+                >
+                  <View style={styles.row}>
+                    <View style={styles.headerIcon}>
+                      <Icon name="pin" style={styles.locationLink} active />
+                    </View>
+                    <Text style={styles.locationLink}>
+                      {this.invite.location.name}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
               </Body>
             </CardItem>
             <CardItem cardBody>
