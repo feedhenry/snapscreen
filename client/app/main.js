@@ -1,7 +1,7 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, NativeModules } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import { Font, AppLoading } from 'expo';
+// import { Font, AppLoading } from 'expo';
 
 import InviteListScreen from './screens/InviteList';
 import InviteDetailScreen from './screens/InviteDetail';
@@ -20,20 +20,25 @@ export default class App extends React.Component {
     this.state = { isReady: false };
   }
   async componentWillMount() {
-    // Prevent font loading errors on Android. Solution copied from
-    // https://github.com/expo/nativebase-example/blob/master/main.js
-    if (Platform.OS === 'android') {
-      await Font.loadAsync({
-        Roboto: require('native-base/Fonts/Roboto.ttf'),
-        Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-      });
+    // if (Platform.OS === 'android') {
+    //   await Font.loadAsync({
+    //     Roboto: require('native-base/Fonts/Roboto.ttf'),
+    //     Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+    //   });
+    // }
+    console.log('-----------', 'calling init' ,'--------')
+    try {
+      NativeModules.Aerogear.init({}, ()=>{console.log(arguments);},()=>{console.log(arguments);});
+    } catch (error) {
+      console.log(error);
     }
+    
     this.setState({ isReady: true });
   }
   render() {
-    if (!this.state.isReady) {
-      return <AppLoading />;
-    }
+    // if (!this.state.isReady) {
+    //   return <AppLoading />;
+    // }
     return <Navigator />;
   }
 }

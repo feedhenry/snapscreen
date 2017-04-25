@@ -1,3 +1,16 @@
 node_modules/
 .expo/
 npm-debug.*
+android/.gradle
+android/app/build
+.buckconfig
+.gitattributes
+android/.gradle/3.3/
+android/.idea/
+android/app/app.iml
+android/build/android-profile/
+android/build/generated/
+android/local.properties
+android/snapscreen.iml
+android/app/build
+ios/build
