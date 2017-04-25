@@ -16,6 +16,10 @@
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:theme="@style/AppTheme">
+
+    <meta-data android:name="DEFAULT_MESSAGE_HANDLER_KEY"
+        android:value="com.snapscreen.reactnative.ReactNativeMessageHandler" />
+
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
