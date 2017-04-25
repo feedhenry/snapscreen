@@ -13,6 +13,7 @@ import {
   Container,
   Content,
   Icon,
+  Fab,
   Left,
   ListItem,
   Right,
@@ -39,6 +40,9 @@ const styles = {
   },
   listArrow: {
     flex: 0.1,
+  },
+  addButton: {
+    backgroundColor: '#037aff',
   },
 };
 
@@ -117,6 +121,14 @@ export default class InviteListScreen extends React.Component {
               }
             />
           </Content>
+          {/* TODO: This button needs something like TouchableOpacitiy -
+              there's no feedback when it's pressed. */}
+          <Fab
+            style={styles.addButton}
+            onPress={() => this.props.navigation.navigate('InviteCreate')}
+          >
+            <Icon name="add" />
+          </Fab>
         </Container>
       );
     } else {

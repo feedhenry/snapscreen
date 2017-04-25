@@ -5,11 +5,13 @@ import { Font, AppLoading } from 'expo';
 
 import InviteListScreen from './screens/InviteList';
 import InviteDetailScreen from './screens/InviteDetail';
+import InviteCreateScreen from './screens/InviteCreate';
 
 const Navigator = StackNavigator({
   // First item in this object is the first screen displayed
   InvitesList: { screen: InviteListScreen },
   InviteDetail: { screen: InviteDetailScreen },
+  InviteCreate: { screen: InviteCreateScreen },
 });
 
 export default class App extends React.Component {
