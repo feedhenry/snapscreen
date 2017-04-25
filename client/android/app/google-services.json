@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "842964426922",
+    "firebase_url": "https://snapscreen-38891.firebaseio.com",
+    "project_id": "snapscreen-38891",
+    "storage_bucket": "snapscreen-38891.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842964426922:android:4271c3ab4af123ea",
+        "android_client_info": {
+          "package_name": "com.redhat.snapscreen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "842964426922-hlt3046htj67gfc4br3ba6ed6vqpbhrj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcbc09LVc6zEL44RylFat86bJN39bEEdw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842964426922:android:9e96e0b1c67cb3e6",
+        "android_client_info": {
+          "package_name": "com.snapscreen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "842964426922-hlt3046htj67gfc4br3ba6ed6vqpbhrj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcbc09LVc6zEL44RylFat86bJN39bEEdw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

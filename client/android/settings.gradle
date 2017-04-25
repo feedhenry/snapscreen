@@ -1,0 +1,3 @@
+rootProject.name = 'snapscreen'
+
+include ':app'

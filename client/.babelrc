@@ -1,5 +1,5 @@
 {
-  "presets": ["babel-preset-expo"],
+  "presets": ["react-native"],
   "env": {
     "development": {
       "plugins": ["jsx-control-statements", "transform-react-jsx-source"]
