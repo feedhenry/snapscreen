@@ -22,6 +22,7 @@
     "native-base": "^2.1.0",
     "prettier": "^1.2.2",
     "react": "16.0.0-alpha.3",
+    "react-native-login": "git+https://github.com/secondsun/react-native-login.git#81a643e749a27ed901e945db72ffba6c167be840",
     "react-native": "0.43.2",
     "react-navigation": "git+https://github.com/react-community/react-navigation.git#7edd9a7",
     "uuid": "^3.0.1"
