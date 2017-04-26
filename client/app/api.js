@@ -137,6 +137,30 @@ let mockInviteData = [
   },
 ];
 
+let mockTheaterData = [
+  {
+    id: 'lks',
+    name: 'Landmark Kendall Square',
+    lat: '42.367819',
+    long: '-71.090022',
+    address: 'One Kendall Square, 355 Binney St, Cambridge, MA 02139, USA',
+  },
+  {
+    id: 'rcf',
+    name: 'Regal Cinemas Fenway 13 & RPX',
+    lat: '42.344793',
+    long: '-71.098176',
+    address: '201 Brookline Ave, Boston, MA 02215, USA',
+  },
+  {
+    id: 'albc',
+    name: 'AMC Loews Boston Common 19',
+    lat: '42.353290',
+    long: '-71.061698',
+    address: '175 Tremont St, Boston, MA 02111, USA',
+  },
+];
+
 function getInvites() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -147,4 +171,12 @@ function getInvites() {
   });
 }
 
-export { getInvites };
+function getTheaters(lat, long) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(mockTheaterData);
+    }, 1000);
+  });
+}
+
+export { getInvites, getTheaters };
