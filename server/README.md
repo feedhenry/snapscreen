@@ -50,31 +50,28 @@ This is a backend for the Snapscreen App. It includes an API to query for invite
     }
     ```
 
-- GET /movies?lat=<latitude>&lng=<longitude>
-  - Returns the list of movies shown nearby the provided location
+- GET /movies?cinema_id=<cinema_id>
+  - Returns the list of movies shown in a cinema
   - Response:
     ```
     [ {
       id: string,
       title: string,
       showtimes: [ {
-        theatreId: string,
-        theatreName: string,
-        datetime: string,
-        releaseDate: string,
-        genres: [ string ],
-        description: string,
-        topCast: [ string ],
-        directors: [ string ],
-        officialUrl: string,
-        preferredImage: {
-          width: string,
-          height: string,
-          uri: string,
-          category: string,
-          text: string,
-          primary: string
+        id: string,
+        start_at: string
         }
+    } ]
+    ```
+
+- GET /cinemas?lat=<latitude>&lng=<longitude>
+  - Returns the list of cinemas shown nearby (within 10km) the provided location
+  - Response:
+    ```
+    [ {
+      id: string,
+      name: string,
+      location: object
     } ]
     ```
 

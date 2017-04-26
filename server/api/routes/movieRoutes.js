@@ -1,9 +1,12 @@
 'use strict';
 
 module.exports = function(app) {
-  var invite = require('../controllers/movieController');
+  var movie = require('../controllers/movieController');
+
+  app.route('/cinemas')
+    .get(movie.listCinemasByLocation);
 
   app.route('/movies')
-    .get(invite.listMoviesNearby);
+    .get(movie.listMoviesByCinema);
 
 };
