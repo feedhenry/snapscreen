@@ -4,7 +4,7 @@
 
 1. [Install Node.js >= 7.8.0](https://nodejs.org/en/download/package-manager/)
 2. [Install yarn >= 0.23.2](https://yarnpkg.com/lang/en/docs/install/)
-3. Run `yarn global install react-native-cli`
+3. Run `yarn global add react-native-cli`
 3. Run `yarn install`
 
 ## Commands
