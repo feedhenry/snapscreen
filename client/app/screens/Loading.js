@@ -52,8 +52,12 @@ export default class LoadingScreen extends React.Component {
         }
         if (this.state.hasInitialUrl != null) {    //check if the initialUrl has been checked
           this.setState({isLoading:false}); // if so, ready to work!
-          console.log("Update");
-          this.forceUpdate();
+          if (!tokens && !this.state.hasInitialUrl) {
+            console.log("no token, no url");
+            this.props.navigation.navigate('Login', {config: config})
+          } else {
+            this.forceUpdate();
+          }
         }
     }).catch(err =>{console.log(err)});
 
@@ -74,8 +78,8 @@ export default class LoadingScreen extends React.Component {
               });
             } else {
               this.setState({hasToken:false, isLoading:false});
-                console.log("Update");
-                this.forceUpdate();
+                console.log("no token, has url, did not get code");
+                this.props.navigation.navigate('Login', {config: config})
             }
 
           } else {
@@ -115,20 +119,6 @@ export default class LoadingScreen extends React.Component {
           </View>
      
       );
-    } else if (!this.state.hasToken){
-      return (
-           <View style={{
-                            flex: 1,
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            
-                        }}>
-          <Button style={Button.style} title="Go To Login" block onPress={() => this.props.navigation.navigate('Login', {config: config})}></Button>
-          <Button title="Go To Invitation" block onPress={() => this.props.navigation.navigate('InviteCreate', {config: config})}></Button>
-          </View>
-     
-        );
     } else {
       return (
            <View style={{
