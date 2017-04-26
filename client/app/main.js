@@ -24,14 +24,21 @@ export default class App extends React.Component {
     this.state = { isReady: false };
   }
   async componentWillMount() {
-
-    console.log('-----------', 'calling init' ,'--------')
+    console.log('-----------', 'calling init', '--------');
     try {
-      NativeModules.Aerogear.init({}, ()=>{console.log(arguments);},()=>{console.log(arguments);});
+      NativeModules.Aerogear.init(
+        {},
+        () => {
+          console.log(arguments);
+        },
+        () => {
+          console.log(arguments);
+        }
+      );
     } catch (error) {
       console.log(error);
     }
-    
+
     this.setState({ isReady: true });
   }
   render() {
