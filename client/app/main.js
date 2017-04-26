@@ -24,25 +24,24 @@ export default class App extends React.Component {
     this.state = { isReady: false };
   }
   async componentWillMount() {
-    // if (Platform.OS === 'android') {
-    //   await Font.loadAsync({
-    //     Roboto: require('native-base/Fonts/Roboto.ttf'),
-    //     Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-    //   });
-    // }
-    console.log('-----------', 'calling init' ,'--------')
+    console.log('-----------', 'calling init', '--------');
     try {
-      NativeModules.Aerogear.init({}, ()=>{console.log(arguments);},()=>{console.log(arguments);});
+      NativeModules.Aerogear.init(
+        {},
+        () => {
+          console.log(arguments);
+        },
+        () => {
+          console.log(arguments);
+        }
+      );
     } catch (error) {
       console.log(error);
     }
-    
+
     this.setState({ isReady: true });
   }
   render() {
-    // if (!this.state.isReady) {
-    //   return <AppLoading />;
-    // }
     return <Navigator />;
   }
 }
