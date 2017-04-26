@@ -27,7 +27,7 @@
     "keycloak-connect": "^3.0.0",
     "keycloak-request-token": "^0.1.0",
     "mongoose": "^4.9.3",
-    "onconnect-movies-api": "0.0.4",
+    "cinepass-api": "0.0.5",
     "roi": "^0.15.0",
     "tape": "^4.6.3"
   }
