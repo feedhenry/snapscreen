@@ -21,7 +21,15 @@ export default class App extends React.Component {
   componentWillMount() {
     //register to push notifications
     try {
-      NativeModules.Aerogear.init({}, ()=>{console.log(arguments);},()=>{console.log(arguments);});
+      NativeModules.Aerogear.init(
+        {},
+        () => {
+          console.log(arguments);
+        },
+        () => {
+          console.log(arguments);
+        }
+      );
     } catch (error) {
       console.log(error);
     }
