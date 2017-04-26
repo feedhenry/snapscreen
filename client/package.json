@@ -14,6 +14,7 @@
     "native-base": "2.1.2",
     "prettier": "^1.2.2",
     "react": "16.0.0-alpha.6",
+    "react-native-login": "git+https://github.com/secondsun/react-native-login.git#81a643e749a27ed901e945db72ffba6c167be840",    
     "react-native": "0.43.4",
     "react-navigation": "^1.0.0-beta.8"
   },

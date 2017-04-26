@@ -61,14 +61,27 @@ function getCurrentUserStatus(invitees) {
 }
 
 export default class InviteListScreen extends React.Component {
+  config = {};
+  token = '';
+
   static navigationOptions = {
     title: 'Invites',
   };
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
+
+    console.log(
+      'InviteList:\n' +
+        JSON.stringify(props) +
+        '\n\n------------------------------LIST'
+    );
+
+    this.config = props.navigation.state.params.config;
+    this.token = props.navigation.state.params.token;
+
     this.state = { refreshing: false };
 
     // Initial load of invites
@@ -123,6 +136,7 @@ export default class InviteListScreen extends React.Component {
       });
   }
   render() {
+    console.log(this.token);
     if (this.state.dataSource) {
       // TODO: Replace with FlatList when we upgrade to react-native >= 0.43
       return (
