@@ -128,6 +128,9 @@ android {
 dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
+    compile 'org.jboss.aerogear:aerogear-android-core:3.0.0'
+    compile 'org.jboss.aerogear:aerogear-android-pipe:3.0.0'
+    compile 'org.jboss.aerogear:aerogear-android-push:4.0.1'
     compile "com.facebook.react:react-native:+"  // From node_modules
 }
 
@@ -137,3 +140,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply plugin: 'com.google.gms.google-services'
