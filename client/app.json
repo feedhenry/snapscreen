@@ -1,5 +1,4 @@
 {
-  "expo": {
-    "sdkVersion": "16.0.0"
-  }
+  "name": "SnapScreen",
+  "displayName": "SnapScreen"
 }
