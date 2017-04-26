@@ -56,7 +56,7 @@ export default class LoadingScreen extends React.Component {
             console.log("no token, no url");
             this.props.navigation.navigate('Login', {config: config})
           } else {
-            this.forceUpdate();
+            this.props.navigation.navigate('InvitesList', {token: this.state.token, config: config})
           }
         }
     }).catch(err =>{console.log(err)});
@@ -78,17 +78,18 @@ export default class LoadingScreen extends React.Component {
               });
             } else {
               this.setState({hasToken:false, isLoading:false});
-                console.log("no token, has url, did not get code");
                 this.props.navigation.navigate('Login', {config: config})
             }
 
           } else {
             this.setState({hasInitialUrl:false});
-            console.log("Update");
             if (this.state.hasToken != null) {    //check if the token has been checked
               this.setState({isLoading:false}); // if so, ready to work!
-              console.log("Update");
-              this.forceUpdate();
+              if (this.state.hasToken) {
+                this.props.navigation.navigate('InvitesList', {token: this.state.token, config: config})
+              } else {
+                this.props.navigation.navigate('Login', {config: config})
+              }
             }
             
           }
