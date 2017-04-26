@@ -1,7 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import { Font, AppLoading } from 'expo';
 
 import InviteListScreen from './screens/InviteList';
 import InviteDetailScreen from './screens/InviteDetail';
@@ -19,21 +18,10 @@ export default class App extends React.Component {
     super();
     this.state = { isReady: false };
   }
-  async componentWillMount() {
-    // Prevent font loading errors on Android. Solution copied from
-    // https://github.com/expo/nativebase-example/blob/master/main.js
-    if (Platform.OS === 'android') {
-      await Font.loadAsync({
-        Roboto: require('native-base/Fonts/Roboto.ttf'),
-        Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-      });
-    }
+  componentWillMount() {
     this.setState({ isReady: true });
   }
   render() {
-    if (!this.state.isReady) {
-      return <AppLoading />;
-    }
     return <Navigator />;
   }
 }
