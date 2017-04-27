@@ -1,12 +1,20 @@
 import React from 'react';
 import Login from 'react-native-login';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Text, View, StyleSheet } from 'react-native';
-import { Body, Button, Col, Container, Content } from 'native-base';
+import {
+  Text,
+  View,
+  Body,
+  Button,
+  Col,
+  Icon,
+  Container,
+  Content,
+} from 'native-base';
 
-const styles = StyleSheet.create({
+const styles = {
   buttonBigText: {
     fontSize: 20,
+    padding: 15,
     fontWeight: 'bold',
   },
   buttonRedText: {
@@ -18,10 +26,10 @@ const styles = StyleSheet.create({
   inline: {
     flexDirection: 'row',
   },
-});
+};
 
 export default class LoginScreen extends React.Component {
-  config = {};
+  keycloakConfig = {};
 
   static navigationOptions = {
     title: 'Login',
@@ -29,11 +37,11 @@ export default class LoginScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.config = props.navigation.state.params.config;
+    this.keycloakConfig = props.navigation.state.params.keycloakConfig;
   }
 
-  login(loginServicePref) {
-    var usableConfig = Object.assign({}, this.config, {
+  _login(loginServicePref) {
+    var usableConfig = Object.assign({}, this.keycloakConfig, {
       kc_idp_hint: loginServicePref,
     });
     Login.start(usableConfig);
@@ -45,21 +53,23 @@ export default class LoginScreen extends React.Component {
 
         <Content>
 
-          <Button full transparent onPress={() => this.login('github')}>
-            <View style={styles.inline}>
-              <Icon name="github-square" size={40} color="#000" />
-              <Text style={[styles.buttonBlackText, styles.buttonBigText]}>
-                {' '}Sign-in with GitHub
-              </Text>
-            </View>
+          <Button iconLeft transparent onPress={() => this._login('github')}>
+            <Icon name="logo-github" size={40} style={styles.buttonBlackText} />
+            <Text
+              style={{ ...styles.buttonBlackText, ...styles.buttonBigText }}
+            >
+              Sign-in with GitHub
+            </Text>
           </Button>
-          <Button full transparent onPress={() => this.login('google')}>
-            <View style={styles.inline}>
-              <Icon name="google-plus-square" size={40} color="#db3236" />
-              <Text style={[styles.buttonRedText, styles.buttonBigText]}>
-                {' '}Sign-in with Google
-              </Text>
-            </View>
+          <Button iconLeft transparent onPress={() => this._login('google')}>
+            <Icon
+              name="logo-googleplus"
+              size={40}
+              style={styles.buttonRedText}
+            />
+            <Text style={{ ...styles.buttonRedText, ...styles.buttonBigText }}>
+              Sign-in with Google
+            </Text>
           </Button>
 
         </Content>
