@@ -12,6 +12,7 @@ import {
   Right,
   Text,
 } from 'native-base';
+import haversine from 'haversine';
 import { getTheaters } from '../api';
 
 const styles = {
@@ -34,6 +35,7 @@ export default class SelectTheaterScreen extends React.Component {
     // TODO: Not really sure if doing this in the constructor is best practice?
     navigator.geolocation.getCurrentPosition(
       position => {
+        this.currentPosition = position.coords;
         getTheaters(position.coords.longitude, position.coords.latitude)
           .then(theaters => {
             this.setState({ theaters });
@@ -52,9 +54,20 @@ export default class SelectTheaterScreen extends React.Component {
     this.props.navigation.goBack();
   }
   _renderRow({ item }) {
+    var theaterDistance = haversine(
+      this.currentPosition,
+      { latitude: item.lat, longitude: item.long },
+      { unit: 'mile' }
+    ).toFixed(2);
     return (
       <ListItem onPress={this._handleTheaterClick.bind(this, item)}>
-        <Text>{item.name}</Text>
+        <Body>
+          <Text>{item.name}</Text>
+          <Text note>{item.address}</Text>
+        </Body>
+        <Right>
+          <Text>{theaterDistance} mi</Text>
+        </Right>
       </ListItem>
     );
   }
