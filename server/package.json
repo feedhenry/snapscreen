@@ -18,16 +18,17 @@
   },
   "dependencies": {
     "body-parser": "^1.17.1",
+    "cinepass-api": "0.0.5",
     "express": "^4.15.2",
     "express-jwt": "^5.3.0",
     "express-session": "^1.15.2",
     "fs": "0.0.1-security",
     "jsonwebtoken": "^7.3.0",
+    "jwt-decode": "^2.2.0",
     "keycloak-client-registration": "^0.1.0",
     "keycloak-connect": "^3.0.0",
     "keycloak-request-token": "^0.1.0",
     "mongoose": "^4.9.3",
-    "cinepass-api": "0.0.5",
     "roi": "^0.15.0",
     "tape": "^4.6.3"
   }
