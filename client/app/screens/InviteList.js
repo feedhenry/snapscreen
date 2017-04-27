@@ -54,11 +54,12 @@ export default class InviteListScreen extends React.Component {
   static navigationOptions = {
     title: 'Invites',
   };
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
+
     this.state = { refreshing: false };
 
     // Initial load of invites
