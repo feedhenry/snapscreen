@@ -1742,6 +1742,10 @@ has-unicode@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/has-unicode/-/has-unicode-2.0.1.tgz#e0e6fe6a28cf51138855e086d1691e771de2a8b9"
 
+haversine@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/haversine/-/haversine-1.0.2.tgz#7872a584383230e1565875477da02f18c518c3e5"
+
 hawk@~3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/hawk/-/hawk-3.1.3.tgz#078444bd7c1640b0fe540d2c9b73d59678e8e1c4"
