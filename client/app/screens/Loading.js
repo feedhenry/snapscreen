@@ -19,11 +19,20 @@ import {
   View,
 } from 'native-base';
 
-const config = {
+const keycloakConfig = {
   url: 'https://chat.sagaoftherealms.net/auth',
   realm: 'demo',
   client_id: 'Android',
   redirect_uri: 'keycloak-demo://app',
+};
+
+const styles = {
+  view: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 };
 
 export default class LoadingScreen extends React.Component {
@@ -32,79 +41,81 @@ export default class LoadingScreen extends React.Component {
   };
   constructor(props) {
     super(props);
-    Login.conf = config;
+    Login.conf = keycloakConfig;
+
     this.state = {
       isLoading: true,
       hasInitialUrl: null,
       hasToken: null,
       token: '',
     };
+
+    this._checkTokens();
+    this._checkInitialUrl();
   }
 
-  checkTokens() {
+  _checkTokens() {
     return Login.tokens()
       .then(tokens => {
         if (tokens) {
           this.setState(
             { hasToken: true, token: tokens['access_token'] },
-            this.attemptNavigation
+            this._attemptNavigation
           );
         } else {
-          this.setState({ hasToken: false }, this.attemptNavigation);
+          this.setState({ hasToken: false }, this._attemptNavigation);
         }
       })
       .catch(err => {
         console.log(err);
-        this.setState({ hasToken: false }, this.attemptNavigation);
+        this.setState({ hasToken: false }, this._attemptNavigation);
       });
   }
 
-  checkInitialUrl() {
+  _checkInitialUrl() {
     Linking.getInitialURL()
       .then(url => {
         if (url) {
-          var code = this.getParameterByName('code', url);
-          if (code) {
-            Login.retrieveTokens(code)
+          //This is for exchanging an authorizationCode for an access_token Ref. OAuth2 spec
+          var authorizationCode = this._getParameterByName('code', url);
+          if (authorizationCode) {
+            Login.retrieveTokens(authorizationCode)
               .then(resp => {
-                this.setState({ hasInitialUrl: true }, this.checkTokens);
+                this.setState({ hasInitialUrl: true }, this._checkTokens);
               })
               .catch(error => {
                 console.log('Error in code exchange : ' + error);
-                this.setState({ hasInitialUrl: false }, this.checkTokens);
+                this.setState({ hasInitialUrl: false }, this._checkTokens);
               });
           } else {
-            this.setState({ hasInitialUrl: false }, this.attemptNavigation);
+            this.setState({ hasInitialUrl: false }, this._attemptNavigation);
           }
         } else {
-          this.setState({ hasInitialUrl: false }, this.attemptNavigation);
+          this.setState({ hasInitialUrl: false }, this._attemptNavigation);
         }
       })
       .catch(err => {
         console.log(err);
-        this.setState({ hasInitialUrl: false }, this.checkTokens);
+        this.setState({ hasInitialUrl: false }, this._checkTokens);
       });
   }
 
-  attemptNavigation() {
+  _attemptNavigation() {
     if (this.state.hasInitialUrl != null && this.state.hasToken != null) {
       if (this.state.hasToken) {
         this.props.navigation.navigate('InvitesList', {
           token: this.state.token,
-          config: config,
+          keycloakConfig: keycloakConfig,
         });
       } else {
-        this.props.navigation.navigate('Login', { config: config });
+        this.props.navigation.navigate('Login', {
+          keycloakConfig: keycloakConfig,
+        });
       }
     }
   }
 
-  componentWillMount() {
-    this.checkTokens();
-    this.checkInitialUrl();
-  }
-
-  getParameterByName(name, url) {
+  _getParameterByName(name, url) {
     name = name.replace(/[\[\]]/g, '\\$&');
     var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
       results = regex.exec(url);
@@ -116,14 +127,7 @@ export default class LoadingScreen extends React.Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
+        <View style={styles.view}>
           <Text>Loading...</Text>
         </View>
       );
