@@ -36,7 +36,7 @@ export default class SelectTheaterScreen extends React.Component {
     navigator.geolocation.getCurrentPosition(
       position => {
         this.currentPosition = position.coords;
-        getTheaters(position.coords.longitude, position.coords.latitude)
+        getTheaters(position.coords.latitude, position.coords.longitude)
           .then(theaters => {
             this.setState({ theaters });
           })
