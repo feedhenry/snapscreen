@@ -54,7 +54,7 @@ function _getRating(ratings) {
     return 0;
   } else {
     if (ratings['tmdb']) {
-      return ratings['tmdb'].value / 10;
+      return (ratings['tmdb'].value / 10).toFixed(2);
     } else {
       return 0;
     }
