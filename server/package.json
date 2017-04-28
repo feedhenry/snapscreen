@@ -6,7 +6,7 @@
   "scripts": {
     "test": "exit 0",
     "start": "MONGOHOST=$MONGOHOST;DEBUG=express:* node server.js",
-    "format": "find ./api -name '*.js' -type f | xargs prettier --write --single-quote --trailing-comma es5"
+    "format": "find . -name '*.js' -type f -not -path './node_modules/*' | xargs prettier --write --single-quote --trailing-comma es5"
   },
   "engine": {
     "node": "*",
