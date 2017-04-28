@@ -270,6 +270,31 @@ let mockMovieShowtimeData = [
   },
 ];
 
+/**
+ * Create a new invite and notify invitees.
+ *
+ * @param {object} invite Invite to be created. Will look like one of the
+ * objects defined in `mockInviteData`.
+ * @returns {Promise} Does not need to return anything when resolved.
+ */
+function createInvite(invite) {}
+
+/**
+ * Update an invite. Will be called when the current user accepts or declines
+ * an invite.
+ *
+ * @param {object} invite Updated invite. Will look like one of the
+ * objects defined in `mockInviteData`.
+ * @returns {Promise} Does not need to return anything when resolved.
+ */
+function updateInvite(invite) {}
+
+/**
+ * Get the list of invites that the current user is organizing or invited to.
+ *
+ * @returns {Promise} Should return an array that looks like `mockInviteData`
+ * when resolved.
+ */
 function getInvites() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -280,6 +305,14 @@ function getInvites() {
   });
 }
 
+/**
+ * Get the theaters nearby a set of coordinates.
+ *
+ * @param {number} lat Latitude.
+ * @param {number} long Longitude.
+ * @returns {Promise} Should return an array that looks like `mockTheaterData`
+ * when resolved.
+ */
 function getTheaters(lat, long) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -288,6 +321,14 @@ function getTheaters(lat, long) {
   });
 }
 
+/**
+ * Get the movies and showtimes for a given theatre on a given day.
+ *
+ * @param {String} theaterID A unique idenitifer for a theater.
+ * @param {String} date An ISO-8601 formatted date to get showtimes for.
+ * @returns {Promise} Should return an array that looks like
+ * `mockMovieShowtimeData` when resolved.
+ */
 function getMovieShowtimes(theaterID, date) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -296,4 +337,10 @@ function getMovieShowtimes(theaterID, date) {
   });
 }
 
-export { getInvites, getTheaters, getMovieShowtimes };
+export {
+  createInvite,
+  updateInvite,
+  getInvites,
+  getTheaters,
+  getMovieShowtimes,
+};
