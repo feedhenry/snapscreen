@@ -57,7 +57,11 @@ function capitalize(string) {
 }
 
 function getCurrentUserStatus(invitees) {
-  return invitees.find(user => user.id === currentUserID).status;
+  try {
+    return invitees.find(user => user.id === currentUserID).status;
+  } catch (ignore) {
+    return 'Not Invited'; //While we have test data it may be possible that you get wrong invitations.
+  }
 }
 
 export default class InviteListScreen extends React.Component {

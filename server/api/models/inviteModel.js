@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var InviteeSchema = new Schema({
-  name: String,
+  id: String,
   status: {
     type: [
       {
@@ -18,13 +18,15 @@ var InviteeSchema = new Schema({
 
 var InviteSchema = new Schema({
   title: String,
-  showtime: String,
+  showtime: Object,
   location: {
     name: String,
     lat: String,
     long: String,
     address: String,
   },
+  movie: Object,
+  organizer: Object,
   runtime: String,
   rating: String,
   thumbnail: String,
