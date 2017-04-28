@@ -20,9 +20,9 @@ import {
 } from 'native-base';
 
 const keycloakConfig = {
-  url: 'https://chat.sagaoftherealms.net/auth',
-  realm: 'demo',
-  client_id: 'Android',
+  url: 'http://keycloak-server-snapscreen.74.207.224.48.xip.io/auth',
+  realm: 'SnapScreen',
+  client_id: 'android',
   redirect_uri: 'keycloak-demo://app',
 };
 
