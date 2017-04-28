@@ -3,8 +3,11 @@
 var mongoose = require('mongoose'), Invite = require('../models/inviteModel');
 
 exports.listUserInvites = function(req, res) {
-  //TODO: get userId from authentication data
-  var userId = 'hoyt@sagaoftherealms.net';
+   var userId = req.user_id;
+   if (!userId) {
+    return res.status(403).send();
+   }
+
   Invite.find({ $or: [{host_id: userId}, {invitees:{$elemMatch : {id: userId}}}] }, function(err, invites) {
     console.log(JSON.stringify(invites));
     if (err) res.status(500).send(err);
@@ -13,8 +16,11 @@ exports.listUserInvites = function(req, res) {
 };
  
 exports.createInvite = function(req, res) {
-  //TODO: get userId from authentication data
-  var userId = 'test-user-id';
+   var userId = req.user_id;
+   if (!userId) {
+    return res.status(403).send();
+   }
+ 
   
   console.log("body " + JSON.stringify(req.body));
   req.body.host_id = userId;
@@ -25,7 +31,8 @@ exports.createInvite = function(req, res) {
   newInvite.location = {name: inviteParam.theater.name,
     lat: inviteParam.theater.location.lat,
     long: inviteParam.theater.location.lon,
-    address: inviteParam.theater.location.address.display_text};
+    address: inviteParam.theater.location.address.display_text
+  };
     
   newInvite.runtime= inviteParam.movie.runtime;
   newInvite.rating= inviteParam.movie.rating;

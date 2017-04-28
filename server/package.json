@@ -26,6 +26,7 @@
     "express-session": "^1.15.2",
     "fs": "0.0.1-security",
     "jsonwebtoken": "^7.3.0",
+    "jwt-decode": "^2.2.0",
     "keycloak-client-registration": "^0.1.0",
     "keycloak-connect": "^3.0.0",
     "keycloak-request-token": "^0.1.0",
