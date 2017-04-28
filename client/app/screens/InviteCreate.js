@@ -65,7 +65,7 @@ export default class InviteCreateScreen extends React.Component {
   _handleInviteeChange(index, input) {
     // Update list of invitees when text inputs are changed
     let invitees = this.state.invitees.slice();
-    invitees[index] = { id: input };
+    invitees[index] = { id: input, name: input };
     this.setState({ invitees });
   }
 

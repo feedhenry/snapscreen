@@ -32,6 +32,7 @@ var InviteSchema = new Schema({
   thumbnail: String,
   backdrop: String,
   myStatus: String,
+  theater: Object,
   organizer: {
     name: String,
   },

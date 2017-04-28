@@ -1,4 +1,5 @@
 import React from 'react';
+import Login from 'react-native-login';
 import {
   ActivityIndicator,
   Button,
@@ -24,8 +25,7 @@ import {
 import { getInvites } from '../api';
 import { formatShowtime } from '../utils';
 
-// XXX: Eliminate this when we can get the ID from Keycloak
-const currentUserID = 'pdarrow@example.com';
+var jwtDecode = require('jwt-decode');
 
 const styles = {
   accepted: {
@@ -56,14 +56,6 @@ function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function getCurrentUserStatus(invitees) {
-  try {
-    return invitees.find(user => user.id === currentUserID).status;
-  } catch (ignore) {
-    return 'Not Invited'; //While we have test data it may be possible that you get wrong invitations.
-  }
-}
-
 export default class InviteListScreen extends React.Component {
   static navigationOptions = {
     title: 'Invites',
@@ -76,15 +68,33 @@ export default class InviteListScreen extends React.Component {
 
     this.state = { refreshing: false };
 
-    // Initial load of invites
-    getInvites()
-      .then(invites => {
-        this.setState({ dataSource: ds.cloneWithRows(invites) });
+    Login.tokens()
+      .then(token => {
+        let accessToken = token['access_token'];
+        let userId = accessToken.email;
+        return this.setState({ userId: userId });
       })
-      .catch(error => {
-        alert('Error loading invites: ' + JSON.stringify(error));
+      .then(() => {
+        getInvites()
+          .then(invites => {
+            this.setState({ dataSource: ds.cloneWithRows(invites) });
+          })
+          .catch(error => {
+            alert('Error loading invites: ' + JSON.stringify(error));
+          });
       });
+
+    // Initial load of invites
   }
+
+  _getCurrentUserStatus(invitees) {
+    try {
+      return invitees.find(user => user.id === this.state.userId).status;
+    } catch (ignore) {
+      return 'Not Invited'; //While we have test data it may be possible that you get wrong invitations.
+    }
+  }
+
   _renderRow(item) {
     return (
       <ListItem
@@ -100,12 +110,15 @@ export default class InviteListScreen extends React.Component {
           <Text note>{formatShowtime(item.showtime.time)}</Text>
 
           <Choose>
-            <When condition={item.organizer.id === currentUserID}>
+            <When condition={item.organizer.id === this.state.userId}>
               <Text note style={styles.organizer}>Organizer</Text>
             </When>
             <Otherwise>
-              <Text note style={styles[getCurrentUserStatus(item.invitees)]}>
-                {capitalize(getCurrentUserStatus(item.invitees))}
+              <Text
+                note
+                style={styles[this._getCurrentUserStatus(item.invitees)]}
+              >
+                {capitalize(this._getCurrentUserStatus(item.invitees))}
               </Text>
             </Otherwise>
           </Choose>
