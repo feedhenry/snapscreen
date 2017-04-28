@@ -24,6 +24,9 @@ import {
 import { getInvites } from '../api';
 import { formatShowtime } from '../utils';
 
+// XXX: Eliminate this when we can get the ID from Keycloak
+const currentUserID = 'pdarrow@example.com';
+
 const styles = {
   accepted: {
     color: variables.brandSuccess,
@@ -33,6 +36,9 @@ const styles = {
   },
   unanswered: {
     color: 'gray',
+  },
+  organizer: {
+    color: variables.brandInfo,
   },
   thumbnail: {
     width: 60,
@@ -50,6 +56,10 @@ function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function getCurrentUserStatus(invitees) {
+  return invitees.find(user => user.id === currentUserID).status;
+}
+
 export default class InviteListScreen extends React.Component {
   static navigationOptions = {
     title: 'Invites',
@@ -63,28 +73,36 @@ export default class InviteListScreen extends React.Component {
     this.state = { refreshing: false };
 
     // Initial load of invites
-    // TODO: Not really sure if doing this in the constructor is best practice?
     getInvites()
       .then(invites => {
         this.setState({ dataSource: ds.cloneWithRows(invites) });
       })
       .catch(error => {
-        console.log('Error loading invites.');
+        alert('Error loading invites: ' + JSON.stringify(error));
       });
   }
-  _renderRow(rowData) {
+  _renderRow(item) {
     return (
       <ListItem
         onPress={() =>
-          this.props.navigation.navigate('InviteDetail', { invite: rowData })}
+          this.props.navigation.navigate('InviteDetail', { invite: item })}
       >
-        <Image source={{ uri: rowData.thumbnail }} style={styles.thumbnail} />
+        <Image source={{ uri: item.movie.thumbnail }} style={styles.thumbnail} />
         <Body>
-          <Text>{rowData.title}</Text>
-          <Text note>{formatShowtime(rowData.showtime)}</Text>
-          <Text note style={styles[rowData.myStatus]}>
-            {capitalize(rowData.myStatus)}
-          </Text>
+          <Text>{item.movie.title}</Text>
+          <Text note>{formatShowtime(item.showtime.time)}</Text>
+
+          <Choose>
+            <When condition={item.organizer.id === currentUserID}>
+              <Text note style={styles.organizer}>Organizer</Text>
+            </When>
+            <Otherwise>
+              <Text note style={styles[getCurrentUserStatus(item.invitees)]}>
+                {capitalize(getCurrentUserStatus(item.invitees))}
+              </Text>
+            </Otherwise>
+          </Choose>
+
         </Body>
         <Right style={styles.listArrow}>
           <Icon name="arrow-forward" />
