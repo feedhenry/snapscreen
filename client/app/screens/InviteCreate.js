@@ -8,9 +8,13 @@ import {
   Content,
   Button,
   Icon,
+  Item,
+  Input,
   Text,
+  Toast,
   View,
 } from 'native-base';
+import { createInvite } from '../api';
 import { formatShowtime } from '../utils';
 
 const styles = {
@@ -35,19 +39,82 @@ export default class InviteCreateScreen extends React.Component {
   static navigationOptions = {
     title: 'Create Invite',
   };
+
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      invitees: [
+        {
+          id: '',
+        },
+      ],
+    };
   }
+
   _theaterSelected(theater) {
     this.setState({
       theater,
-      movieShowtime: null
+      movieShowtime: null,
     });
   }
+
   _movieShowtimeSelected(movieShowtime) {
     this.setState({ movieShowtime });
   }
+
+  _handleInviteeChange(index, input) {
+    // Update list of invitees when text inputs are changed
+    let invitees = this.state.invitees.slice();
+    invitees[index] = { id: input };
+    this.setState({ invitees });
+  }
+
+  _handleInviteeSubmit(index, event) {
+    // Ensure there's always an empty invitee input
+    let invitees = this.state.invitees.slice();
+    if (invitees[invitees.length - 1].id !== '') {
+      invitees.push({ id: '' });
+      this.setState({ invitees });
+    }
+  }
+
+  _handleSendInvite() {
+    // Strip off the empty invitee if there is one
+    let invitees = this.state.invitees.slice();
+    if (invitees[invitees.length - 1].id !== '') {
+      invitees.pop();
+    }
+
+    // Prepare payload
+    let payload = {
+      theater: this.state.theater,
+      movie: this.state.movie,
+      invitees: invitees,
+    };
+
+    // Send it!
+    createInvite(payload)
+      .then(() => {
+        Toast.show({
+          text: 'Invite sent!',
+          position: 'bottom',
+          buttonText: 'Okay',
+        });
+        this.props.navigation.goBack();
+      })
+      .catch(error => {
+        alert('Error sending invite: ' + JSON.stringify(error));
+      });
+  }
+
+  _canSendInvite() {
+    return (
+      this.state.theater &&
+      this.state.movieShowtime &&
+      this.state.invitees[0].id
+    );
+  }
+
   render() {
     return (
       <Container>
@@ -120,13 +187,31 @@ export default class InviteCreateScreen extends React.Component {
             </CardItem>
             <CardItem>
               <Body>
-                <Button rounded light small><Text>Change</Text></Button>
+                <For each="invitee" index="idx" of={this.state.invitees}>
+                  <Item underline key={idx}>
+                    <Input
+                      placeholder="Enter an email address"
+                      onChangeText={this._handleInviteeChange.bind(this, idx)}
+                      onSubmitEditing={this._handleInviteeSubmit.bind(
+                        this,
+                        idx
+                      )}
+                    />
+                  </Item>
+                </For>
               </Body>
             </CardItem>
           </Card>
 
           <View style={styles.buttonContainer}>
-            <Button block primary><Text>Send Invite</Text></Button>
+            <Button
+              block
+              primary
+              disabled={!this._canSendInvite()}
+              onPress={this._handleSendInvite.bind(this)}
+            >
+              <Text>Send Invite</Text>
+            </Button>
           </View>
         </Content>
       </Container>
