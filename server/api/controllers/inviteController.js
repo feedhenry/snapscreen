@@ -16,6 +16,7 @@ exports.listUserInvites = function(req, res) {
 exports.createInvite = function(req, res) {
   //TODO: get userId from authentication data
   var userId = 'test-user-id';
+  req.body.host_id = userId;
   var newInvite = new Invite(req.body);
   newInvite.save(function(err, invite) {
     if (err) res.status(500).send(err);
