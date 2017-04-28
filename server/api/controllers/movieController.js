@@ -12,11 +12,12 @@ exports.listCinemasByLocation = function(req, res) {
     	return;
     }
 
-    CinepassAPI.getCinemas({ location: location }, function(cinemas) {
+    CinepassAPI.getCinemas({ location:location, distance:20 }, function(cinemas) {
         if(cinemas.error) {
         	res.status(500).send(cinemas);
         	return;
         }
+		console.log(JSON.stringify(cinemas));
         res.json(cinemas);
     });
 };

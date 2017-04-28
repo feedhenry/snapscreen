@@ -1,3 +1,5 @@
+import HttpClient from './HttpClient';
+
 let mockInviteData = [
   {
     theater: {
@@ -314,10 +316,16 @@ function getInvites() {
  * when resolved.
  */
 function getTheaters(lat, long) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(mockTheaterData);
-    }, 1000);
+  return HttpClient.get('cinemas', {
+    lat: '42.3601',
+    lng: '-71.0589',
+  }).then(cinemas => {
+    cinemas.forEach(function(cinema) {
+      cinema.address = cinema.location.address.display_text;
+      cinema.lat = cinema.location.lat;
+      cinema.long = cinema.location.lon;
+    }, this);
+    return cinemas;
   });
 }
 

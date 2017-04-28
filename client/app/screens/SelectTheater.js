@@ -38,9 +38,13 @@ export default class SelectTheaterScreen extends React.Component {
         this.currentPosition = position.coords;
         getTheaters(position.coords.longitude, position.coords.latitude)
           .then(theaters => {
+            console.log(JSON.stringify(theaters));
             this.setState({ theaters });
           })
           .catch(error => {
+            console.log(
+              'Select Theater Screen Error : ' + JSON.stringify(error)
+            );
             alert('Error loading theaters: ' + JSON.stringify(error));
           });
       },

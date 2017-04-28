@@ -53,5 +53,5 @@ fastlane/Preview.html
 fastlane/screenshots
 
 # Config
-app-config.env
+.env
 
