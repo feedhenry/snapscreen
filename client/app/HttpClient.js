@@ -35,13 +35,10 @@ export default class HTTPClient {
      * @returns A new object with the full set of headers.
      */
   static async _defaultHeaders(headers = {}) {
-    //TODO: add Barer token
-    // let newHeaders = Object.assign(headers, {
-    //   Authorization: `Bearer ${(await Login.tokens()).access_token}`,
-    // });
-    // return newHeaders;
-
-    return headers;
+    let newHeaders = Object.assign(headers, {
+      Authorization: `Bearer ${(await Login.tokens()).access_token}`,
+    });
+    return newHeaders;
   }
 
   static _buildQuery(params) {
@@ -85,21 +82,13 @@ export default class HTTPClient {
   static async post(path, body = {}, headers = {}) {
     let fullHeaders = Object.assign(headers, await this._defaultHeaders());
     fullHeaders.Accept = 'application/json';
-    fullHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
-
-    let formBody = [];
-    for (var property in body) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(body[property]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
+    fullHeaders['Content-Type'] = 'application/json';
 
     let request = {
       method: 'POST',
       path: path,
       headers: fullHeaders,
-      body: formBody,
+      body: body,
     };
     return this._call(request);
   }
@@ -114,21 +103,13 @@ export default class HTTPClient {
   static async patch(path, id, body = {}, headers = {}) {
     let fullHeaders = Object.assign(headers, await this._defaultHeaders());
     fullHeaders.Accept = 'application/json';
-    fullHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
-
-    let formBody = [];
-    for (var property in body) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(body[property]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
+    fullHeaders['Content-Type'] = 'application/json';
 
     let request = {
       method: 'PATCH',
       path: path + '/' + id,
       headers: fullHeaders,
-      body: formBody,
+      body: body,
     };
     return this._call(request);
   }
