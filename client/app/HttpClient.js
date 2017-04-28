@@ -83,12 +83,22 @@ export default class HTTPClient {
      */
     static async post(path, body = {}, headers = {}) {
         let fullHeaders = Object.assign(headers, await this._defaultHeaders());
+        fullHeaders.Accept = 'application/json';
+        fullHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
+
+        var formBody = [];
+        for (var property in body) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(body[property]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
 
         let request = {
             method: 'POST',
             path: path,
             headers: fullHeaders,
-            body: JSON.stringify(body)
+            body: formBody
         };
         return this._call(request);
     }
@@ -112,7 +122,7 @@ export default class HTTPClient {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        
+
         let request = {
             method: 'PATCH',
             path: path + '/' + id,
