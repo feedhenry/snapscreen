@@ -347,23 +347,23 @@ async function getTheaters(lat, lng) {
 }
 
 /**
- * Get the movies and showtimes for a given theatre on a given day.
+ * Get the movies and showtimes for a given theater on a given day.
  *
- * @param {String} theaterID A unique idenitifer for a theater.
+ * @param {String} theaterID A unique identifier for a theater.
  * @param {String} date An ISO-8601 formatted date to get showtimes for.
  * @returns {Promise} Should return an array that looks like
  * `mockMovieShowtimeData` when resolved.
  */
-//TODO: handle dates
-async function getMovieShowtimes(theaterId, date) {
-  if (!theaterId) return;
-
-  return HttpClient.get('movies', { cinema_id: theaterId })
+async function getMovieShowtimes(theaterID, date) {
+  return HttpClient.get('movies', {
+    cinema_id: theaterID,
+    date: date,
+  })
     .then(movies => {
       return movies;
     })
-    .catch(err => {
-      console.log(err);
+    .catch(error => {
+      console.log(error);
     });
 }
 
