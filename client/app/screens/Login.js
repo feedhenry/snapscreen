@@ -5,7 +5,6 @@ import {
   View,
   Body,
   Button,
-  Col,
   Icon,
   Container,
   Content,
