@@ -125,7 +125,7 @@ let mockInviteData = [{
  * objects defined in `mockInviteData`.
  * @returns {Promise} Does not need to return anything when resolved.
  */
-function createInvite(invite) {
+async function createInvite(invite) {
     return HttpClient.post('invites', invite)
         .then(invite => {
             return invite;
@@ -143,7 +143,7 @@ function createInvite(invite) {
  * objects defined in `mockInviteData`.
  * @returns {Promise} Does not need to return anything when resolved.
  */
-function updateInvite(invite) {
+async function updateInvite(invite) {
     return HttpClient.patch('invites', invite.id, invite)
         .then(invite => {
             return invite;
@@ -178,7 +178,6 @@ async function getInvites() {
  * when resolved.
  */
 async function getTheaters(lat, lng) {
-    //lat=34.0386656&lng=-118.4221519
     return HttpClient.get('cinemas', { lat, lng })
         .then(cinemas => {
             cinemas.forEach(function(cinema) {

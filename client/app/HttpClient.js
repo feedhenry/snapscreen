@@ -86,7 +86,7 @@ export default class HTTPClient {
         fullHeaders.Accept = 'application/json';
         fullHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
 
-        var formBody = [];
+        let formBody = [];
         for (var property in body) {
             var encodedKey = encodeURIComponent(property);
             var encodedValue = encodeURIComponent(body[property]);
@@ -115,7 +115,7 @@ export default class HTTPClient {
         fullHeaders.Accept = 'application/json';
         fullHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
 
-        var formBody = [];
+        let formBody = [];
         for (var property in body) {
             var encodedKey = encodeURIComponent(property);
             var encodedValue = encodeURIComponent(body[property]);
