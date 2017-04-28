@@ -5,6 +5,7 @@ CinepassAPI.init('dh0xy0m0LQZXqvLVMscUWA70jAeRpyLx');
 
 exports.listCinemasByLocation = function(req, res) {
     var location = ''
+	console.log(JSON.stringify(req.headers));
     if(req.query.lat && req.query.lng) {
     	location = req.query.lat + ',' + req.query.lng;
     } else {
@@ -17,7 +18,6 @@ exports.listCinemasByLocation = function(req, res) {
         	res.status(500).send(cinemas);
         	return;
         }
-		console.log(JSON.stringify(cinemas));
         res.json(cinemas);
     });
 };
