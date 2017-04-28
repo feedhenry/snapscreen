@@ -149,6 +149,7 @@ export default class SelectMovieShowtimeScreen extends React.Component {
               <FlatList
                 data={this.state.movieShowtimes}
                 renderItem={this._renderRow.bind(this)}
+                keyExtractor={item => item.movie.id}
               />
             </When>
             <Otherwise>
