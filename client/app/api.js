@@ -284,8 +284,8 @@ async function createInvite(invite) {
     .then(invite => {
       return invite;
     })
-    .catch(err => {
-      console.log(err);
+    .catch(error => {
+      console.log(error);
     });
 }
 
@@ -302,8 +302,8 @@ async function updateInvite(invite) {
     .then(invite => {
       return invite;
     })
-    .catch(err => {
-      console.log(err);
+    .catch(error => {
+      console.log(error);
     });
 }
 
@@ -318,8 +318,8 @@ async function getInvites() {
     .then(invites => {
       return invites;
     })
-    .catch(err => {
-      console.log(err);
+    .catch(error => {
+      console.log(error);
     });
 }
 
@@ -341,8 +341,8 @@ async function getTheaters(lat, long) {
       }, this);
       return cinemas;
     })
-    .catch(err => {
-      console.log(err);
+    .catch(error => {
+      console.log(error);
     });
 }
 
