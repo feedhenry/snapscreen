@@ -16,8 +16,8 @@ const styles = {
     padding: 15,
     fontWeight: 'bold',
   },
-  buttonRedText: {
-    color: '#db3236',
+  buttonBlueText: {
+    color: '#3b5998',
   },
   buttonBlackText: {
     color: '#000',
@@ -60,14 +60,14 @@ export default class LoginScreen extends React.Component {
               Sign-in with GitHub
             </Text>
           </Button>
-          <Button iconLeft transparent onPress={() => this._login('google')}>
+          <Button iconLeft transparent onPress={() => this._login('facebook')}>
             <Icon
-              name="logo-googleplus"
+              name="logo-facebook"
               size={40}
-              style={styles.buttonRedText}
+              style={styles.buttonBlueText}
             />
-            <Text style={{ ...styles.buttonRedText, ...styles.buttonBigText }}>
-              Sign-in with Google
+            <Text style={{ ...styles.buttonBlueText, ...styles.buttonBigText }}>
+              Sign-in with Facebook
             </Text>
           </Button>
 
