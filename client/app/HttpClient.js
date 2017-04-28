@@ -1,6 +1,5 @@
 import Login from 'react-native-login';
 
-//TODO: remove in favour of react-native-config
 const Config = {
   API_URL: 'http://snapscreen-server-snapscreen.74.207.224.48.xip.io',
 };
@@ -35,13 +34,10 @@ export default class HTTPClient {
      * @returns A new object with the full set of headers.
      */
   static async _defaultHeaders(headers = {}) {
-    //TODO: add Barer token
-    // let newHeaders = Object.assign(headers, {
-    //   Authorization: `Bearer ${(await Login.tokens()).access_token}`,
-    // });
-    // return newHeaders;
-
-    return headers;
+    let newHeaders = Object.assign(headers, {
+      Authorization: `Bearer ${(await Login.tokens()).access_token}`,
+    });
+    return newHeaders;
   }
 
   static _buildQuery(params) {
