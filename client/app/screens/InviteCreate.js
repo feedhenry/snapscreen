@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, Picker } from 'react-native';
 import {
   Body,
   Card,
@@ -11,6 +11,7 @@ import {
   Text,
   View,
 } from 'native-base';
+import { formatShowtime } from '../utils';
 
 const styles = {
   content: {
@@ -45,10 +46,29 @@ export default class InviteCreateScreen extends React.Component {
         long: '-71.090022',
         address: 'One Kendall Square, 355 Binney St, Cambridge, MA 02139, USA',
       },
+      movieShowtime: {
+        movie: {
+          id: 'gis',
+          title: 'Going in Style',
+          synopsis: 'Desperate to pay the bills and come through for their loved ones, three lifelong pals risk it all by embarking on a daring bid to knock off the very bank that absconded with their money.',
+          runtime: '96',
+          rating: 0.47,
+          thumbnail: 'https://image.tmdb.org/t/p/original/cCpgyKtvKf0OkpeXvc7JxuOiRJp.jpg',
+          backdrop: 'https://image.tmdb.org/t/p/original/uARnuPezr7eZkOsHj2ujFQz6EKE.jpg',
+        },
+        showtime: {
+          id: 'fas',
+          time: '2017-04-28T22:30:00.000Z',
+        },
+      },
     };
   }
   _theaterSelected(theater) {
     this.setState({ theater });
+  }
+  _movieShowtimeSelected(movieShowtime) {
+    console.log(movieShowtime);
+    this.setState({ movieShowtime });
   }
   render() {
     return (
@@ -86,18 +106,27 @@ export default class InviteCreateScreen extends React.Component {
             </CardItem>
             <CardItem>
               <Body>
-                <Button
-                  rounded
-                  light
-                  small
-                  onPress={() =>
-                    this.props.navigation.navigate('SelectMovieShowtime', {
-                      onSelect: this._theaterSelected.bind(this),
-                    })}
-                >
-                  <Text>Change</Text>
-                </Button>
+                <Text style={styles.h4}>
+                  {this.state.movieShowtime.movie.title}
+                </Text>
+                <Text style={styles.small}>
+                  {formatShowtime(this.state.movieShowtime.showtime.time)}
+                </Text>
               </Body>
+            </CardItem>
+            <CardItem>
+              <Button
+                rounded
+                light
+                small
+                onPress={() =>
+                  this.props.navigation.navigate('SelectMovieShowtime', {
+                    theaterID: this.state.theater.id,
+                    onSelect: this._movieShowtimeSelected.bind(this),
+                  })}
+              >
+                <Text>Change</Text>
+              </Button>
             </CardItem>
           </Card>
 
