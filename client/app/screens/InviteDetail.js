@@ -54,7 +54,7 @@ const styles = {
   showtimeText: {
     fontSize: 16,
   },
-  locationLink: {
+  theaterLink: {
     fontSize: 16,
     fontWeight: 'bold',
     color: variables.brandInfo,
@@ -94,9 +94,9 @@ export default class InviteDetailScreen extends React.Component {
     this.invite = this.props.navigation.state.params.invite;
   }
   _buildMapURI() {
-    let lat = this.invite.location.lat;
-    let long = this.invite.location.long;
-    let name = encodeURIComponent(this.invite.location.name);
+    let lat = this.invite.theater.lat;
+    let long = this.invite.theater.long;
+    let name = encodeURIComponent(this.invite.theater.name);
     return Platform.select({
       ios: `http://maps.apple.com/?ll=${lat},${long}&q=${name}`,
       android: `http://maps.google.com/maps?ll=${lat},${long}&q=${name}`,
@@ -135,13 +135,13 @@ export default class InviteDetailScreen extends React.Component {
           <Card style={styles.movieCard}>
             <CardItem header>
               <Body>
-                <H3 style={styles.movieTitle}>{this.invite.title}</H3>
+                <H3 style={styles.movieTitle}>{this.invite.movie.title}</H3>
                 <View style={styles.row}>
                   <View style={styles.headerIcon}>
                     <Icon name="calendar" style={styles.showtimeText} />
                   </View>
                   <Text style={styles.showtimeText}>
-                    {formatShowtime(this.invite.showtime)}
+                    {formatShowtime(this.invite.showtime.time)}
                   </Text>
                 </View>
                 <TouchableOpacity
@@ -149,10 +149,10 @@ export default class InviteDetailScreen extends React.Component {
                 >
                   <View style={styles.row}>
                     <View style={styles.headerIcon}>
-                      <Icon name="pin" style={styles.locationLink} active />
+                      <Icon name="pin" style={styles.theaterLink} active />
                     </View>
-                    <Text style={styles.locationLink}>
-                      {this.invite.location.name}
+                    <Text style={styles.theaterLink}>
+                      {this.invite.theater.name}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -160,7 +160,7 @@ export default class InviteDetailScreen extends React.Component {
             </CardItem>
             <CardItem cardBody>
               <Image
-                source={{ uri: this.invite.backdrop }}
+                source={{ uri: this.invite.movie.backdrop }}
                 style={styles.backdrop}
               />
             </CardItem>
@@ -168,15 +168,15 @@ export default class InviteDetailScreen extends React.Component {
               <Body>
                 <Text>
                   <Text style={styles.detailLabel}>Synopsis: </Text>
-                  {this.invite.synopsis}
+                  {this.invite.movie.synopsis}
                 </Text>
                 <Text>
                   <Text style={styles.detailLabel}>Runtime: </Text>
-                  {this.invite.runtime} min
+                  {this.invite.movie.runtime} min
                 </Text>
                 <Text>
                   <Text style={styles.detailLabel}>Rating: </Text>
-                  {this.invite.rating * 100}%
+                  {this.invite.movie.rating * 100}%
                 </Text>
               </Body>
             </CardItem>
