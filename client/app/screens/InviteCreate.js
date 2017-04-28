@@ -81,14 +81,15 @@ export default class InviteCreateScreen extends React.Component {
   _handleSendInvite() {
     // Strip off the empty invitee if there is one
     let invitees = this.state.invitees.slice();
-    if (invitees[invitees.length - 1].id !== '') {
+    if (invitees[invitees.length - 1].id === '') {
       invitees.pop();
     }
 
     // Prepare payload
     let payload = {
       theater: this.state.theater,
-      movie: this.state.movie,
+      movie: this.state.movieShowtime.movie,
+      showtime: this.state.movieShowtime.showtime,
       invitees: invitees,
     };
 
