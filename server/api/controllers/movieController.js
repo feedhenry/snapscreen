@@ -62,7 +62,18 @@ function _getRating(ratings) {
 }
 
 exports.listMoviesByCinema = function(req, res) {
+
+console.log(JSON.stringify(req.query));
+
   var cinemaId = '';
+  var date = Date.now();
+
+  if (req.query.date) {
+	  date = new Date(Date.parse(req.query.date));
+  }
+
+  date.setDate(date.getDate() + 1);//everything before tomorrow
+  console.log(date);
   if (req.query.cinema_id) {
     cinemaId = req.query.cinema_id;
   } else {
@@ -86,19 +97,21 @@ exports.listMoviesByCinema = function(req, res) {
       var showTimesByMovie = {};
 
       showtimes.forEach(function(showTime) {
-        if (showTimesByMovie[showTime.movie_id]) {
-          showTimesByMovie[showTime.movie_id].push({
-            id: showTime.id,
-            time: showTime.start_at,
-          });
-        } else {
-          showTimesByMovie[showTime.movie_id] = [
-            {
-              id: showTime.id,
-              time: showTime.start_at,
-            },
-          ];
-        }
+		if (Date.parse(showTime.start_at) < date.getTime()) {
+			if (showTimesByMovie[showTime.movie_id]) {
+				showTimesByMovie[showTime.movie_id].push({
+				id: showTime.id,
+				time: showTime.start_at,
+			});
+			} else {
+			showTimesByMovie[showTime.movie_id] = [
+				{
+				id: showTime.id,
+				time: showTime.start_at,
+				},
+			];
+			}
+		}
       });
 
       CinepassAPI.getMovies(
@@ -112,20 +125,21 @@ exports.listMoviesByCinema = function(req, res) {
           }
 
           res.json(
-            movies.map(function(movie) {
-              return {
-                movie: {
-                  id: movie.id,
-                  title: movie.title,
-                  synopsis: movie.synopsis,
-                  runtime: movie.runtime || 'Unlisted',
-                  rating: _getRating(movie.ratings),
-                  thumbnail: movie.poster_image_thumbnail,
-                  backdrop: _getBackDrop(movie.poster_image.image_files),
-                },
-                showtimes: showTimesByMovie[movie.id],
-              };
-            })
+            movies.filter(function(movie) { /*No showtime? filter out*/return  showTimesByMovie[movie.id]; })
+				.map(function(movie) {
+					return {
+						movie: {
+						id: movie.id,
+						title: movie.title,
+						synopsis: movie.synopsis,
+						runtime: movie.runtime || 'Unlisted',
+						rating: _getRating(movie.ratings),
+						thumbnail: movie.poster_image_thumbnail,
+						backdrop: _getBackDrop(movie.poster_image.image_files),
+						},
+						showtimes: showTimesByMovie[movie.id],
+					};
+            	})
           );
         }
       );
