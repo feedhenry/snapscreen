@@ -1,8 +1,8 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    jwt = require('jsonwebtoken')
-Invite = require('../models/inviteModel');
+    jwt = require('jsonwebtoken'),
+    Invite = require('../models/inviteModel');
 
 
 exports.listUserInvites = function(req, res) {
