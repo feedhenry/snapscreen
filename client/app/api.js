@@ -347,38 +347,6 @@ async function getTheaters(lat, lng) {
 }
 
 /**
- * Get the list of invites that the current user is organizing or invited to.
- *
- * @returns {Promise} Should return an array that looks like `mockInviteData`
- * when resolved.
- */
-function getInvites() {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(mockInviteData);
-      // Simulate data being changed
-      mockInviteData = mockInviteData.slice(-2);
-    }, 1000);
-  });
-}
-
-/**
- * Get the theaters nearby a set of coordinates.
- *
- * @param {number} lat Latitude.
- * @param {number} long Longitude.
- * @returns {Promise} Should return an array that looks like `mockTheaterData`
- * when resolved.
- */
-function getTheaters(lat, long) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(mockTheaterData);
-    }, 1000);
-  });
-}
-
-/**
  * Get the movies and showtimes for a given theatre on a given day.
  *
  * @param {String} theaterID A unique idenitifer for a theater.
