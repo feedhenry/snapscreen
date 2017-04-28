@@ -203,6 +203,75 @@ let mockTheaterData = [
   },
 ];
 
+let mockMovieShowtimeData = [
+  {
+    movie: {
+      id: 'tbb',
+      title: 'The Boss Baby',
+      synopsis: "A story about how a new baby's arrival impacts a family, told from the point of view of a delightfully unreliable narrator, a wildly imaginative 7 year old named Tim.",
+      runtime: '97',
+      rating: 0.53,
+      thumbnail: 'https://image.tmdb.org/t/p/original/vkvPL8Lef9grxx6tyrojrjaaAw4.jpg',
+      backdrop: 'https://image.tmdb.org/t/p/original/bTFeSwh07oX99ofpDI4O2WkiFJ.jpg',
+    },
+    showtimes: [
+      { id: 'afa', time: '2017-04-28T21:40:00.000Z' },
+      { id: 'asd', time: '2017-04-28T22:35:00.000Z' },
+      { id: 'hsn', time: '2017-04-28T23:45:00.000Z' },
+    ],
+  },
+  {
+    movie: {
+      id: 'bbatb',
+      title: 'Beauty and the Beast',
+      synopsis: "A live-action adaptation of Disney's version of the classic 'Beauty and the Beast' tale of a cursed prince and a beautiful young woman who helps him break the spell.",
+      runtime: '129',
+      rating: 0.71,
+      thumbnail: 'https://image.tmdb.org/t/p/original/8LdkswnaKrZbySdxdkoZCB5QDto.jpg',
+      backdrop: 'https://image.tmdb.org/t/p/original/6aUWe0GSl69wMTSWWexsorMIvwU.jpg',
+    },
+    showtimes: [
+      { id: 'afa', time: '2017-04-28T21:40:00.000Z' },
+      { id: 'fkw', time: '2017-04-28T22:30:00.000Z' },
+      { id: 'jsd', time: '2017-04-28T23:55:00.000Z' },
+      { id: 'hsy', time: '2017-04-29T00:55:00.000Z' },
+      { id: 'msh', time: '2017-04-29T01:55:00.000Z' },
+    ],
+  },
+  {
+    movie: {
+      id: 'lgn',
+      title: 'Logan',
+      synopsis: "In the near future, a weary Logan cares for an ailing Professor X in a hide out on the Mexican border. But Logan's attempts to hide from the world and his legacy are up-ended when a young mutant arrives, being pursued by dark forces.",
+      runtime: '141',
+      rating: 0.92,
+      thumbnail: 'https://image.tmdb.org/t/p/original/5dn8jT3ii2i5xP1EBah6g9kdUKJ.jpg',
+      backdrop: 'https://image.tmdb.org/t/p/original/sHMZggbeZc4HwBgeu1BO0ISwet1.jpg',
+    },
+    showtimes: [
+      { id: 'hdf', time: '2017-04-28T21:40:00.000Z' },
+      { id: 'jsj', time: '2017-04-28T22:30:00.000Z' },
+      { id: 'fgj', time: '2017-04-28T23:45:00.000Z' },
+    ],
+  },
+  {
+    movie: {
+      id: 'gis',
+      title: 'Going in Style',
+      synopsis: 'Desperate to pay the bills and come through for their loved ones, three lifelong pals risk it all by embarking on a daring bid to knock off the very bank that absconded with their money.',
+      runtime: '96',
+      rating: 0.47,
+      thumbnail: 'https://image.tmdb.org/t/p/original/cCpgyKtvKf0OkpeXvc7JxuOiRJp.jpg',
+      backdrop: 'https://image.tmdb.org/t/p/original/uARnuPezr7eZkOsHj2ujFQz6EKE.jpg',
+    },
+    showtimes: [
+      { id: 'erw', time: '2017-04-28T21:40:00.000Z' },
+      { id: 'ity', time: '2017-04-28T22:30:00.000Z' },
+      { id: 'ies', time: '2017-04-28T23:45:00.000Z' },
+    ],
+  },
+];
+
 /**
  * Create a new invite and notify invitees.
  *
