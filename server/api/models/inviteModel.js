@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var InviteeSchema = new Schema({
-  invitee_id: String,
+  name: String,
   status: {
     type: [{
       type: String,
@@ -15,15 +15,25 @@ var InviteeSchema = new Schema({
 });
 
 var InviteSchema = new Schema({
+  title: String,
+  showtime: String,
+  location: {
+    name: String,
+    lat: String,
+    long: String,
+    address: String
+  },
+  runtime: String,
+  rating: String,
+  thumbnail: String,
+  backdrop: String,
+  myStatus: String,
+  organizer: {
+    name: String
+  },
+  notes: String,
   movie_id: String,
   host_id: String,
-  status: {
-    type: [{
-      type: String,
-      enum: ['accepted', 'declined', 'unanswered']
-    }],
-    default: ['accepted']
-  },
   invitees: [InviteeSchema]
 });
 
