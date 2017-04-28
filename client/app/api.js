@@ -331,8 +331,8 @@ async function getInvites() {
  * @returns {Promise} Should return an array that looks like `mockTheaterData`
  * when resolved.
  */
-async function getTheaters(lat, lng) {
-  return HttpClient.get('cinemas', { lat, lng })
+async function getTheaters(lat, long) {
+  return HttpClient.get('cinemas', { lat, lng: long })
     .then(cinemas => {
       cinemas.forEach(function(cinema) {
         cinema.address = cinema.location.address.display_text;
