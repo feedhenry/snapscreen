@@ -5,8 +5,12 @@ var mongoose = require('mongoose'),
 
 
 exports.listUserInvites = function(req, res) {
-  //TODO: get userId from authentication data
-  var userId = 'test-user-id';
+  var userId = req.user_id;
+  
+  if (!userId) {
+    return res.status(403).send();
+  }
+  
   Invite.find({ host_id: userId }, function(err, invites) {
     if (err) res.status(500).send(err);
     res.json(invites);
@@ -14,9 +18,13 @@ exports.listUserInvites = function(req, res) {
 };
 
 exports.createInvite = function(req, res) {
-  //TODO: get userId from authentication data
-  var userId = 'test-user-id';
+  var userId = req.user_id;
   req.body.host_id = userId;
+  
+  if (!userId) {
+    return res.status(403).send();
+  }
+
   var newInvite = new Invite(req.body);
   newInvite.save(function(err, invite) {
     if (err) res.status(500).send(err);
