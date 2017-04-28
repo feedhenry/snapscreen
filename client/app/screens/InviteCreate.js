@@ -121,7 +121,7 @@ export default class InviteCreateScreen extends React.Component {
         <Content style={styles.content}>
           <Card>
             <CardItem header bordered>
-              <Icon name="pin" /><Text>THEATRE</Text>
+              <Icon name="pin" /><Text>THEATER</Text>
             </CardItem>
             <If condition={this.state.theater}>
               <CardItem>
