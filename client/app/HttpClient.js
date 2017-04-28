@@ -2,7 +2,7 @@ import Login from 'react-native-login';
 
 //TODO: remove in favour of react-native-config
 const Config = {
-  API_URL: 'http://snapscreen-server-snapscreen.74.207.224.48.xip.io',
+  API_URL: 'http://10.0.2.2:3000',
 };
 
 export default class HTTPClient {
@@ -88,7 +88,7 @@ export default class HTTPClient {
       method: 'POST',
       path: path,
       headers: fullHeaders,
-      body: body,
+      body: JSON.stringify(body),
     };
     return this._call(request);
   }
@@ -109,7 +109,7 @@ export default class HTTPClient {
       method: 'PATCH',
       path: path + '/' + id,
       headers: fullHeaders,
-      body: body,
+      body: JSON.stringify(body),
     };
     return this._call(request);
   }
