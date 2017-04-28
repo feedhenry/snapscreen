@@ -10,11 +10,7 @@ var express = require('express'),
   bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;
-//TODO: connect to configuration mongodb  mongodb://mongo-controller/snapscreen
-/*mongoose.connect('mongodb://mongodb:mongodb@' + mongoHost + '/snapscreen', function(err) {
-    if (err) console.log('\x1b[31m%s\x1b[0m', '[ERROR]' ,'Can\'t connect to MongoDB. Try starting it up with `mongod`');
-});*/
-mongoose.connect('mongodb://'+ mongoHost + '/snapscreen', function(err) {
+mongoose.connect('mongodb://mongodb:mongodb@'+ mongoHost + '/snapscreen', function(err) {
   if (err) console.log('\x1b[31m%s\x1b[0m', '[ERROR]' ,'Can\'t connect to MongoDB. Try starting it up with `mongod`');
 });
 
