@@ -6,12 +6,14 @@ var Schema = mongoose.Schema;
 var InviteeSchema = new Schema({
   name: String,
   status: {
-    type: [{
-      type: String,
-      enum: ['accepted', 'declined', 'unanswered']
-    }],
-    default: ['unanswered']
-  }
+    type: [
+      {
+        type: String,
+        enum: ['accepted', 'declined', 'unanswered'],
+      },
+    ],
+    default: ['unanswered'],
+  },
 });
 
 var InviteSchema = new Schema({
@@ -21,7 +23,7 @@ var InviteSchema = new Schema({
     name: String,
     lat: String,
     long: String,
-    address: String
+    address: String,
   },
   runtime: String,
   rating: String,
@@ -29,12 +31,12 @@ var InviteSchema = new Schema({
   backdrop: String,
   myStatus: String,
   organizer: {
-    name: String
+    name: String,
   },
   notes: String,
   movie_id: String,
   host_id: String,
-  invitees: [InviteeSchema]
+  invitees: [InviteeSchema],
 });
 
 module.exports = mongoose.model('Invites', InviteSchema);
