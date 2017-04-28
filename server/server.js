@@ -26,6 +26,7 @@ app.use(bodyParser.json());
 app.keycloak = new Keycloak({});
 
 app.use(app.keycloak.middleware());
+app.use(require('./middleware/jwtDecoder').jwtDecoder);
 app.use(app.keycloak.middleware( { logout: '/'} ));
 
 // endpoint tests

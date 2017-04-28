@@ -5,7 +5,6 @@ CinepassAPI.init('dh0xy0m0LQZXqvLVMscUWA70jAeRpyLx');
 
 exports.listCinemasByLocation = function(req, res) {
     var location = ''
-	console.log(JSON.stringify(req.headers));
     if(req.query.lat && req.query.lng) {
     	location = req.query.lat + ',' + req.query.lng;
     } else {
