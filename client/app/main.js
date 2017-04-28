@@ -8,6 +8,7 @@ import InviteListScreen from './screens/InviteList';
 import InviteDetailScreen from './screens/InviteDetail';
 import InviteCreateScreen from './screens/InviteCreate';
 import SelectTheaterScreen from './screens/SelectTheater';
+import SelectMovieShowtimeScreen from './screens/SelectMovieShowtime.js';
 
 const Navigator = StackNavigator({
   // First item in this object is the first screen displayed
@@ -17,6 +18,7 @@ const Navigator = StackNavigator({
   InviteDetail: { screen: InviteDetailScreen },
   InviteCreate: { screen: InviteCreateScreen },
   SelectTheater: { screen: SelectTheaterScreen },
+  SelectMovieShowtime: { screen: SelectMovieShowtimeScreen },
 });
 
 export default class App extends React.Component {

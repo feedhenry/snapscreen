@@ -87,7 +87,10 @@ export default class InviteListScreen extends React.Component {
         onPress={() =>
           this.props.navigation.navigate('InviteDetail', { invite: item })}
       >
-        <Image source={{ uri: item.movie.thumbnail }} style={styles.thumbnail} />
+        <Image
+          source={{ uri: item.movie.thumbnail }}
+          style={styles.thumbnail}
+        />
         <Body>
           <Text>{item.movie.title}</Text>
           <Text note>{formatShowtime(item.showtime.time)}</Text>
