@@ -6,12 +6,8 @@ var Schema = mongoose.Schema;
 var InviteeSchema = new Schema({
   id: String,
   status: {
-    type: [
-      {
-        type: String,
-        enum: ['accepted', 'declined', 'unanswered'],
-      },
-    ],
+    type: String,
+    enum: ['accepted', 'declined', 'unanswered'],  
     default: 'unanswered',
   },
 });
@@ -33,7 +29,8 @@ var InviteSchema = new Schema({
   myStatus: String,
   theater: Object,
   organizer: {
-    name: String,
+    id: String,
+    name: String
   },
   notes: String,
   movie_id: String,
