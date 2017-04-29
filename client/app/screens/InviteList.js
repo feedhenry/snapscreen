@@ -24,8 +24,7 @@ import {
 } from 'native-base';
 import { getInvites } from '../api';
 import { formatShowtime } from '../utils';
-
-var jwtDecode = require('jwt-decode');
+import jwtDecode from 'jwt-decode';
 
 const styles = {
   accepted: {
