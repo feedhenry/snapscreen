@@ -71,7 +71,7 @@ export default class InviteListScreen extends React.Component {
     Login.tokens()
       .then(token => {
         let accessToken = token['access_token'];
-        let userId = accessToken.email;
+        let userId = jwtDecode(accessToken).email;
         return this.setState({ userId: userId });
       })
       .then(() => {
@@ -88,10 +88,11 @@ export default class InviteListScreen extends React.Component {
   }
 
   _getCurrentUserStatus(invitees) {
-    try {
-      return invitees.find(user => user.id === this.state.userId).status;
-    } catch (ignore) {
-      return 'Not Invited'; //While we have test data it may be possible that you get wrong invitations.
+    let invitation = invitees.find(user => user.id === this.state.userId);
+    if (!invitation) {
+      return 'Not Invited';
+    } else {
+      return invitation.status;
     }
   }
 
