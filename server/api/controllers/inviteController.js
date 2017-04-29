@@ -40,15 +40,15 @@ exports.createInvite = function(req, res) {
     address: inviteParam.theater.location.address.display_text,
   };
 
-  (newInvite.theater = inviteParam.theater), (newInvite.runtime =
-    inviteParam.movie.runtime);
+  newInvite.theater = inviteParam.theater;
+  newInvite.runtime = inviteParam.movie.runtime;
   newInvite.rating = inviteParam.movie.rating;
   newInvite.thumbnail = inviteParam.movie.thumbnail;
   newInvite.backdrop = inviteParam.movie.backdrop;
   newInvite.myStatus = 'accepted';
   newInvite.notes = '';
-  (newInvite.organizer = { id: userId, name: userId }), (newInvite.movie_id =
-    inviteParam.movie.id);
+  newInvite.organizer = { id: userId, name: userId };
+  newInvite.movie_id = inviteParam.movie.id;
   newInvite.movie = inviteParam.movie;
   newInvite.save(function(err, invite) {
     console.log(JSON.stringify(err));
