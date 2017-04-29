@@ -1,6 +1,7 @@
 'use strict';
 
 var CinepassAPI = require('cinepass-api');
+
 CinepassAPI.init('dh0xy0m0LQZXqvLVMscUWA70jAeRpyLx');
 
 exports.listCinemasByLocation = function(req, res) {

@@ -1,8 +1,8 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 
+var Schema = mongoose.Schema;
 var InviteeSchema = new Schema({
   id: String,
   status: {
@@ -26,7 +26,6 @@ var InviteSchema = new Schema({
     address: String,
   },
   movie: Object,
-  organizer: Object,
   runtime: String,
   rating: String,
   thumbnail: String,

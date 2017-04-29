@@ -1,6 +1,7 @@
 'use strict';
 
-var mongoose = require('mongoose'), Invite = require('../models/inviteModel');
+var mongoose = require('mongoose');
+var Invite = require('../models/inviteModel');
 
 exports.listUserInvites = function(req, res) {
   var userId = req.user_id;

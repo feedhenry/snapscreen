@@ -2,8 +2,9 @@
 
 var jwt = require('jsonwebtoken');
 var key = require('../../keycloak.json');
-const Keycloak = require('keycloak-connect');
-const keycloak = new Keycloak({});
+var Keycloak = require('keycloak-connect');
+
+var keycloak = new Keycloak({});
 
 (exports.login = keycloak.protect()), function(req, res) {
   //TODO: call keycloak to check login

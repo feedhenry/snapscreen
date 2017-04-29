@@ -1,12 +1,13 @@
-const Keycloak = require('keycloak-connect');
-const fs = require('fs');
-const session = require('express-session');
+var fs = require('fs');
+var Keycloak = require('keycloak-connect');
+var session = require('express-session');
+var express = require('express');
+var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 
-var express = require('express'),
-  app = express(),
-  port = process.env.PORT || 3000,
-  mongoHost = process.env.MONGOHOST || 'localhost';
-(mongoose = require('mongoose')), (bodyParser = require('body-parser'));
+var app = express();
+var port = process.env.PORT || 3000;
+var mongoHost = process.env.MONGOHOST || 'localhost';
 
 mongoose.Promise = global.Promise;
 mongoose.connect(

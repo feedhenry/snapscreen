@@ -1,6 +1,8 @@
 'use strict';
-const Keycloak = require('keycloak-connect');
-const keycloak = new Keycloak({});
+
+var Keycloak = require('keycloak-connect');
+
+var keycloak = new Keycloak({});
 
 module.exports = function(app) {
   var user = require('../controllers/userController');
