@@ -12,7 +12,7 @@ var InviteeSchema = new Schema({
         enum: ['accepted', 'declined', 'unanswered'],
       },
     ],
-    default: ['unanswered'],
+    default: 'unanswered',
   },
 });
 
