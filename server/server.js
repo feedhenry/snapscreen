@@ -4,6 +4,8 @@ var session = require('express-session');
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var jwtDecoder = require('./middleware/jwtDecoder');
+var routes = require('./api/routes');
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -29,19 +31,18 @@ app.use(bodyParser.json());
 app.keycloak = new Keycloak({});
 
 app.use(app.keycloak.middleware());
-app.use(require('./middleware/jwtDecoder').jwtDecoder);
+app.use(jwtDecoder.jwtDecoder);
 app.use(app.keycloak.middleware({ logout: '/' }));
 
 // endpoint tests
 app.get('/test', app.keycloak.protect(), function(req, res) {
   res.json({ message: 'test' });
 });
-//endpoint test
+// endpoint test
 app.get('/test2', function(req, res) {
   res.json({ message: 'test2' });
 });
 
-var routes = require('./api/routes');
 routes(app);
 
 app.listen(port);
