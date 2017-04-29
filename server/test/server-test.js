@@ -9,62 +9,71 @@ const roi = require('roi');
 const registration = require('keycloak-client-registration');
 const tokenRequester = require('keycloak-request-token');
 
-
 test('Should test public route with no credentials.', t => {
   const options = {
-    'endpoint': 'http://localhost:3000/test2'
+    endpoint: 'http://localhost:3000/test2',
   };
 
-roi.get(options)
+  roi
+    .get(options)
     .then(x => {
-                t.equal(JSON.parse(x.body).message, 'test2');
-                t.end();
+      t.equal(JSON.parse(x.body).message, 'test2');
+      t.end();
     })
     .catch(e => {
-                console.error(e);
-                t.fail();
+      console.error(e);
+      t.fail();
     });
 });
 
 test('Should test secured route with no credentials.', t => {
   const options = {
-                  'endpoint': 'http://localhost:3000/test'
+    endpoint: 'http://localhost:3000/test',
   };
 
-roi.get(options)
+  roi
+    .get(options)
     .then(x => {
-                t.fail('Should never reach this block');
+      t.fail('Should never reach this block');
     })
     .catch(e => {
-                t.equal(e.toString(), 'Access denied');
-                t.end();
+      t.equal(e.toString(), 'Access denied');
+      t.end();
     });
 });
 
 //all tests pass using initial access token , client is created
-registration.create(config.registration, config.testClient).then((v) => {
-  config.registration.accessToken = v.registrationAccessToken;
+registration
+  .create(config.registration, config.testClient)
+  .then(v => {
+    config.registration.accessToken = v.registrationAccessToken;
 
-  test('Should test secured route with user credentials.', t => {
-    tokenRequester(config.baseUrl, config.token).then((token) => {
-    var opt = {
-      endpoint: 'http://localhost:3000/test',
-      headers: {
-        Authorization: 'Bearer ' + token
-      }
-    };
+    test('Should test secured route with user credentials.', t => {
+      tokenRequester(config.baseUrl, config.token)
+        .then(token => {
+          var opt = {
+            endpoint: 'http://localhost:3000/test',
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          };
 
-  roi.get(opt)
-      .then(x => {
-                  t.equal(JSON.parse(x.body).message, 'test');
-                  t.end();
-      })
-      .catch(e => t.fail(e));
-
-      }).catch((err) => {
-                        console.log('err', err);
-      });
+          roi
+            .get(opt)
+            .then(x => {
+              t.equal(JSON.parse(x.body).message, 'test');
+              t.end();
+            })
+            .catch(e => t.fail(e));
+        })
+        .catch(err => {
+          console.log('err', err);
+        });
+    });
+  })
+  .catch(e => {
+    console.error(
+      'Error creating client. Please, check if you have accessToken properly configured',
+      e
+    );
   });
-}).catch((e) => {
-  console.error('Error creating client. Please, check if you have accessToken properly configured', e);
-});
