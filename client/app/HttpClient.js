@@ -1,9 +1,5 @@
 import Login from 'react-native-login';
-
-//TODO: remove in favour of react-native-config
-const Config = {
-  API_URL: 'http://snapscreen-server-snapscreen.74.207.224.48.xip.io',
-};
+import Config from 'react-native-config';
 
 export default class HTTPClient {
   constructor() {}
