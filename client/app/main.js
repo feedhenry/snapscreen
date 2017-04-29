@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, NativeModules } from 'react-native';
+import { Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import LoadingScreen from './screens/Loading';
@@ -27,20 +27,6 @@ export default class App extends React.Component {
     this.state = { isReady: false };
   }
   componentWillMount() {
-    //register to push notifications
-    try {
-      NativeModules.Aerogear.init(
-        {},
-        () => {
-          console.log(arguments);
-        },
-        () => {
-          console.log(arguments);
-        }
-      );
-    } catch (error) {
-      console.log(error);
-    }
     this.setState({ isReady: true });
   }
   render() {

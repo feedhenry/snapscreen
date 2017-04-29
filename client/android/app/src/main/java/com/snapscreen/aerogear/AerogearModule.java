@@ -37,25 +37,27 @@ public class AerogearModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void init(ReadableMap config, Callback successCallback, Callback cancelCallback) {
+    public void init(ReadableMap config, final Callback successCallback, final Callback cancelCallback) {
+
         RegistrarManager.config("register", AeroGearFCMPushConfiguration.class)
                     .setPushServerURI(URI.create(UNIFIED_PUSH_URL))
                     .setSenderId(GCM_SENDER_ID)
                     .setVariantID(VARIANT_ID)
                     .setSecret(SECRET)
-                    .setAlias("Summers")
+                    .setAlias(config.getString("alias"))
                     .asRegistrar();
 
         PushRegistrar registrar = RegistrarManager.getRegistrar("register");
         registrar.register(getCurrentActivity().getApplicationContext(), new org.jboss.aerogear.android.core.Callback<Void>() {
             @Override
             public void onSuccess(Void data) {
-                Log.i("APP", "Registration Succeeded!");
+                successCallback.invoke();
             }
 
             @Override
             public void onFailure(Exception exception) {
-                Log.e("APP", exception.getMessage(), exception);
+                Log.e("REGISTRATION", exception.getMessage(), exception);
+                cancelCallback.invoke(exception.getMessage());
             }
         });
     }

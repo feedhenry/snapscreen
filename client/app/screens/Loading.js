@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Image, Linking } from 'react-native';
+import { Button, Image, Linking, NativeModules } from 'react-native';
 import Login from 'react-native-login';
+import jwtDecode from 'jwt-decode';
 
 import {
   Body,
@@ -59,16 +60,29 @@ export default class LoadingScreen extends React.Component {
       .then(tokens => {
         if (tokens) {
           this.setState(
-            { hasToken: true, token: tokens['access_token'] },
+            {
+              hasToken: true,
+              token: tokens['access_token'],
+            },
             this._attemptNavigation
           );
         } else {
-          this.setState({ hasToken: false }, this._attemptNavigation);
+          this.setState(
+            {
+              hasToken: false,
+            },
+            this._attemptNavigation
+          );
         }
       })
       .catch(err => {
         console.log(err);
-        this.setState({ hasToken: false }, this._attemptNavigation);
+        this.setState(
+          {
+            hasToken: false,
+          },
+          this._attemptNavigation
+        );
       });
   }
 
@@ -81,32 +95,69 @@ export default class LoadingScreen extends React.Component {
           if (authorizationCode) {
             Login.retrieveTokens(authorizationCode)
               .then(resp => {
-                this.setState({ hasInitialUrl: true }, this._checkTokens);
+                this.setState(
+                  {
+                    hasInitialUrl: true,
+                  },
+                  this._checkTokens
+                );
               })
               .catch(error => {
                 console.log('Error in code exchange : ' + error);
-                this.setState({ hasInitialUrl: false }, this._checkTokens);
+                this.setState(
+                  {
+                    hasInitialUrl: false,
+                  },
+                  this._checkTokens
+                );
               });
           } else {
-            this.setState({ hasInitialUrl: false }, this._attemptNavigation);
+            this.setState(
+              {
+                hasInitialUrl: false,
+              },
+              this._attemptNavigation
+            );
           }
         } else {
-          this.setState({ hasInitialUrl: false }, this._attemptNavigation);
+          this.setState(
+            {
+              hasInitialUrl: false,
+            },
+            this._attemptNavigation
+          );
         }
       })
       .catch(err => {
         console.log(err);
-        this.setState({ hasInitialUrl: false }, this._checkTokens);
+        this.setState(
+          {
+            hasInitialUrl: false,
+          },
+          this._checkTokens
+        );
       });
   }
 
   _attemptNavigation() {
     if (this.state.hasInitialUrl != null && this.state.hasToken != null) {
       if (this.state.hasToken) {
-        this.props.navigation.navigate('InvitesList', {
-          token: this.state.token,
-          keycloakConfig: keycloakConfig,
-        });
+        try {
+          NativeModules.Aerogear.init(
+            { alias: jwtDecode(this.state.token).email },
+            () => {
+              this.props.navigation.navigate('InvitesList', {
+                token: this.state.token,
+                keycloakConfig: keycloakConfig,
+              });
+            },
+            () => {
+              console.log(arguments);
+            }
+          );
+        } catch (error) {
+          console.log(error);
+        }
       } else {
         this.props.navigation.navigate('Login', {
           keycloakConfig: keycloakConfig,
@@ -128,7 +179,7 @@ export default class LoadingScreen extends React.Component {
     if (this.state.isLoading) {
       return (
         <View style={styles.view}>
-          <Text>Loading...</Text>
+          <Text> Loading... </Text>
         </View>
       );
     } else {

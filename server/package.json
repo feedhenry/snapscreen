@@ -32,6 +32,7 @@
     "keycloak-request-token": "^0.1.0",
     "mongoose": "^4.9.3",
     "roi": "^0.15.0",
-    "tape": "^4.6.3"
+    "tape": "^4.6.3",
+    "unifiedpush-node-sender": "^0.16.0"
   }
 }

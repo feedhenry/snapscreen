@@ -8,6 +8,7 @@ import {
   RefreshControl,
   StyleSheet,
   View,
+  DeviceEventEmitter,
 } from 'react-native';
 import {
   Body,
@@ -83,7 +84,16 @@ export default class InviteListScreen extends React.Component {
           });
       });
 
-    // Initial load of invites
+    let reloadInvites = function(invites) {
+      this.setState({ dataSource: ds.cloneWithRows(invites) });
+    }.bind(this);
+
+    DeviceEventEmitter.addListener('onDefaultMessage', function(event) {
+      console.log('received invite message');
+      getInvites().then(reloadInvites).catch(error => {
+        alert('Error loading invites: ' + JSON.stringify(error));
+      });
+    });
   }
 
   _getCurrentUserStatus(invitees) {
