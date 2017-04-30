@@ -10,6 +10,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 
 import com.facebook.react.bridge.Callback;
+import com.snapscreen.BuildConfig;
 
 import org.jboss.aerogear.android.unifiedpush.MessageHandler;
 import org.jboss.aerogear.android.unifiedpush.PushRegistrar;
@@ -20,10 +21,10 @@ import java.net.URI;
 
 public class AerogearModule extends ReactContextBaseJavaModule {
 
-    private final String VARIANT_ID       = "3e2c6bd7-cd69-49eb-bd9e-a9360e79f1a9";
-    private final String SECRET           = "15448edc-8896-4163-aca6-cbf783f9165b";
-    private final String GCM_SENDER_ID    = "842964426922";
-    private final String UNIFIED_PUSH_URL = "http://ups-server-snapscreen.74.207.224.48.nip.io/ag-push/";
+    private final String VARIANT_ID       = BuildConfig.UNIFIED_PUSH_VARIANT_ID;
+    private final String SECRET           = BuildConfig.UNIFIED_PUSH_SECRET;
+    private final String GCM_SENDER_ID    = BuildConfig.UNIFIED_PUSH_GCM_SENDER_ID;
+    private final String UNIFIED_PUSH_URL = BuildConfig.UNIFIED_PUSH_URL;
 
     public AerogearModule(ReactApplicationContext reactContext) {
         super(reactContext);
