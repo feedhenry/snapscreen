@@ -7,7 +7,7 @@ var InviteeSchema = new Schema({
   id: String,
   status: {
     type: String,
-    enum: ['accepted', 'declined', 'unanswered'],  
+    enum: ['accepted', 'declined', 'unanswered'],
     default: 'unanswered',
   },
 });
@@ -30,7 +30,7 @@ var InviteSchema = new Schema({
   theater: Object,
   organizer: {
     id: String,
-    name: String
+    name: String,
   },
   notes: String,
   movie_id: String,
