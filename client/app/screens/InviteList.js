@@ -66,6 +66,10 @@ export default class InviteListScreen extends React.Component {
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
 
+    let _reloadInvites = invites => {
+      return this.setState({ dataSource: ds.cloneWithRows(invites) });
+    };
+
     this.state = { refreshing: false };
 
     Login.tokens()
@@ -75,22 +79,13 @@ export default class InviteListScreen extends React.Component {
         return this.setState({ userId: userId });
       })
       .then(() => {
-        getInvites()
-          .then(invites => {
-            this.setState({ dataSource: ds.cloneWithRows(invites) });
-          })
-          .catch(error => {
-            alert('Error loading invites: ' + JSON.stringify(error));
-          });
+        getInvites().then(_reloadInvites).catch(error => {
+          alert('Error loading invites: ' + JSON.stringify(error));
+        });
       });
 
-    let reloadInvites = function(invites) {
-      this.setState({ dataSource: ds.cloneWithRows(invites) });
-    }.bind(this);
-
     DeviceEventEmitter.addListener('onDefaultMessage', function(event) {
-      console.log('received invite message');
-      getInvites().then(reloadInvites).catch(error => {
+      getInvites().then(_reloadInvites).catch(error => {
         alert('Error loading invites: ' + JSON.stringify(error));
       });
     });
