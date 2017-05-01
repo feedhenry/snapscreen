@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+apply plugin: "com.diffplug.gradle.spotless"
 
 import com.android.build.OutputFile
 
@@ -78,6 +79,13 @@ apply from: "../../node_modules/react-native/react.gradle"
  */
 def enableSeparateBuildPerCPUArchitecture = false
 
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+}
+
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
@@ -141,6 +149,13 @@ dependencies {
 task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
+}
+
+spotless {
+    java {
+        target '**/*.java'
+        googleJavaFormat()
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'
