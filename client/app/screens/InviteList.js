@@ -99,7 +99,10 @@ export default class InviteListScreen extends React.Component {
     return (
       <ListItem
         onPress={() =>
-          this.props.navigation.navigate('InviteDetail', { invite: item })}
+          this.props.navigation.navigate('InviteDetail', {
+            invite: item,
+            currentUserID: this.state.userId,
+          })}
       >
         <Image
           source={{ uri: item.movie.thumbnail }}

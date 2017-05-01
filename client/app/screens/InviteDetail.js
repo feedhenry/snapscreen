@@ -17,6 +17,7 @@ import {
   variables,
   View,
 } from 'native-base';
+import { updateInvite } from '../api';
 import { formatShowtime } from '../utils';
 
 const styles = {
@@ -33,6 +34,11 @@ const styles = {
   },
   declineButton: {
     marginLeft: 5,
+  },
+  h4: {
+    fontSize: 18,
+    lineHeight: 24,
+    textAlign: 'center'
   },
 
   // Movie card
@@ -86,25 +92,52 @@ export default class InviteDetailScreen extends React.Component {
   static navigationOptions = {
     title: 'Invite Detail',
   };
+
   constructor(props) {
     super(props);
-    // TODO: This is kind of nasty, look at
-    // https://github.com/react-community/react-navigation/issues/935 for
-    // workarounds
-    this.invite = this.props.navigation.state.params.invite;
+    this.state = {
+      // TODO: This is kind of nasty, look at
+      // https://github.com/react-community/react-navigation/issues/935 for
+      // workarounds
+      invite: this.props.navigation.state.params.invite,
+      currentUserID: this.props.navigation.state.params.currentUserID,
+    };
   }
+
+  _currentUserStatus() {
+    return this.state.invite.invitees.find(
+      user => user.id === this.state.currentUserID
+    ).status;
+  }
+
+  _handleStatusClick(status) {
+    let index = this.state.invite.invitees.findIndex(
+      user => user.id === this.state.currentUserID
+    );
+    // TODO: Find a better way to update state without having to deep clone
+    // https://facebook.github.io/react/docs/update.html maybe!
+    var newState = JSON.parse(JSON.stringify(this.state));
+    newState.invite.invitees[index].status = status;
+
+    updateInvite(newState.invite)
+      .then(() => this.setState(newState))
+      .catch(error => {
+        alert('Error updating invite: ' + JSON.stringify(error));
+      });
+  }
+
   _buildMapURI() {
-    let lat = this.invite.theater.lat;
-    let long = this.invite.theater.long;
-    let name = encodeURIComponent(this.invite.theater.name);
+    let lat = this.state.invite.theater.lat;
+    let long = this.state.invite.theater.long;
+    let name = encodeURIComponent(this.state.invite.theater.name);
     return Platform.select({
       ios: `http://maps.apple.com/?ll=${lat},${long}&q=${name}`,
       android: `http://maps.google.com/maps?ll=${lat},${long}&q=${name}`,
     });
   }
+
   _handleLocationClick() {
     let uri = this._buildMapURI();
-    console.log(uri);
     Linking.canOpenURL(uri).then(supported => {
       if (supported) {
         Linking.openURL(uri);
@@ -113,35 +146,63 @@ export default class InviteDetailScreen extends React.Component {
       }
     });
   }
+
   render() {
     return (
       <Container>
         <Content style={styles.content}>
-          <View style={styles.buttonContainer}>
-            <Grid>
-              <Col>
-                <Button block success style={styles.acceptButton}>
-                  <Text>Accept</Text>
-                </Button>
-              </Col>
-              <Col>
-                <Button block danger style={styles.declineButton}>
-                  <Text>Decline</Text>
-                </Button>
-              </Col>
-            </Grid>
-          </View>
+          <If
+            condition={
+              this.state.invite.organizer.id !== this.state.currentUserID
+            }
+          >
+            <Choose>
+              <When condition={this._currentUserStatus() === 'unanswered'}>
+                <View style={styles.buttonContainer}>
+                  <Grid>
+                    <Col>
+                      <Button
+                        block
+                        success
+                        style={styles.acceptButton}
+                        onPress={this._handleStatusClick.bind(this, 'accepted')}
+                      >
+                        <Text>Accept</Text>
+                      </Button>
+                    </Col>
+                    <Col>
+                      <Button
+                        block
+                        danger
+                        style={styles.declineButton}
+                        onPress={this._handleStatusClick.bind(this, 'declined')}
+                      >
+                        <Text>Decline</Text>
+                      </Button>
+                    </Col>
+                  </Grid>
+                </View>
+              </When>
+              <Otherwise>
+                <Text style={{ ...styles.h4 }}>
+                  You {this._currentUserStatus()} this invite.
+                </Text>
+              </Otherwise>
+            </Choose>
+          </If>
 
           <Card style={styles.movieCard}>
             <CardItem header>
               <Body>
-                <H3 style={styles.movieTitle}>{this.invite.movie.title}</H3>
+                <H3 style={styles.movieTitle}>
+                  {this.state.invite.movie.title}
+                </H3>
                 <View style={styles.row}>
                   <View style={styles.headerIcon}>
                     <Icon name="calendar" style={styles.showtimeText} />
                   </View>
                   <Text style={styles.showtimeText}>
-                    {formatShowtime(this.invite.showtime.time)}
+                    {formatShowtime(this.state.invite.showtime.time)}
                   </Text>
                 </View>
                 <TouchableOpacity
@@ -152,7 +213,7 @@ export default class InviteDetailScreen extends React.Component {
                       <Icon name="pin" style={styles.theaterLink} active />
                     </View>
                     <Text style={styles.theaterLink}>
-                      {this.invite.theater.name}
+                      {this.state.invite.theater.name}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -160,7 +221,7 @@ export default class InviteDetailScreen extends React.Component {
             </CardItem>
             <CardItem cardBody>
               <Image
-                source={{ uri: this.invite.movie.backdrop }}
+                source={{ uri: this.state.invite.movie.backdrop }}
                 style={styles.backdrop}
               />
             </CardItem>
@@ -168,15 +229,15 @@ export default class InviteDetailScreen extends React.Component {
               <Body>
                 <Text>
                   <Text style={styles.detailLabel}>Synopsis: </Text>
-                  {this.invite.movie.synopsis}
+                  {this.state.invite.movie.synopsis}
                 </Text>
                 <Text>
                   <Text style={styles.detailLabel}>Runtime: </Text>
-                  {this.invite.movie.runtime} min
+                  {this.state.invite.movie.runtime} min
                 </Text>
                 <Text>
                   <Text style={styles.detailLabel}>Rating: </Text>
-                  {this.invite.movie.rating * 100}%
+                  {this.state.invite.movie.rating * 100}%
                 </Text>
               </Body>
             </CardItem>
@@ -189,10 +250,10 @@ export default class InviteDetailScreen extends React.Component {
             <ListItem>
               <Icon name="checkmark-circle" style={styles.accepted} />
               <Text style={styles.invitee}>
-                {this.invite.organizer.name} (organizer)
+                {this.state.invite.organizer.name} (organizer)
               </Text>
             </ListItem>
-            <For each="invitee" index="idx" of={this.invite.invitees}>
+            <For each="invitee" index="idx" of={this.state.invite.invitees}>
               <ListItem key={idx}>
                 <Choose>
                   <When condition={invitee.status == 'accepted'}>
@@ -216,7 +277,7 @@ export default class InviteDetailScreen extends React.Component {
             </CardItem>
             <CardItem>
               <Body>
-                <Text>{this.invite.notes}</Text>
+                <Text>{this.state.invite.notes}</Text>
               </Body>
             </CardItem>
           </Card>
