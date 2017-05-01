@@ -38,7 +38,7 @@ const styles = {
   h4: {
     fontSize: 18,
     lineHeight: 24,
-    textAlign: 'center'
+    textAlign: 'center',
   },
 
   // Movie card
