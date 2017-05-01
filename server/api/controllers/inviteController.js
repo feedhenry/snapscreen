@@ -5,10 +5,10 @@ var Invite = require('../models/inviteModel');
 var agSender = require('unifiedpush-node-sender');
 
 const settings = {
-    url: process.env.UPS_URL,
-    applicationId: process.env.UPS_APPLICATION_ID,
-    masterSecret: process.env.UPS_MASTER_SECRET
-  };
+  url: process.env.UPS_URL,
+  applicationId: process.env.UPS_APPLICATION_ID,
+  masterSecret: process.env.UPS_MASTER_SECRET,
+};
 
 exports.listUserInvites = function(req, res) {
   var userId = req.user_id;

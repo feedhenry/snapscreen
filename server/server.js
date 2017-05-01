@@ -14,7 +14,13 @@ var mongoHost = process.env.MONGOHOST || 'localhost';
 
 mongoose.Promise = global.Promise;
 mongoose.connect(
-  'mongodb://' + process.env.MONGO_USER + ':' + process.env.MONGO_PASSWORD + '@' + mongoHost + '/snapscreen',
+  'mongodb://' +
+    process.env.MONGO_USER +
+    ':' +
+    process.env.MONGO_PASSWORD +
+    '@' +
+    mongoHost +
+    '/snapscreen',
   function(err) {
     if (err)
       console.log(
