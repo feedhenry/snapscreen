@@ -1,6 +1,8 @@
 import React from 'react';
-import { Button, Image, Linking } from 'react-native';
+import { Button, Image, Linking, NativeModules } from 'react-native';
 import Login from 'react-native-login';
+import jwtDecode from 'jwt-decode';
+import Config from 'react-native-config';
 
 import {
   Body,
@@ -20,10 +22,10 @@ import {
 } from 'native-base';
 
 const keycloakConfig = {
-  url: 'http://keycloak-server-snapscreen.74.207.224.48.xip.io/auth',
-  realm: 'SnapScreen',
-  client_id: 'android',
-  redirect_uri: 'keycloak-demo://app',
+  url: Config.KEYCLOAK_URL,
+  realm: Config.KEYCLOAK_REALM,
+  client_id: Config.KEYCLOAK_CLIENT_ID,
+  redirect_uri: Config.KEYCLOAK_REDIRECT_URI,
 };
 
 const styles = {
@@ -103,10 +105,22 @@ export default class LoadingScreen extends React.Component {
   _attemptNavigation() {
     if (this.state.hasInitialUrl != null && this.state.hasToken != null) {
       if (this.state.hasToken) {
-        this.props.navigation.navigate('InvitesList', {
-          token: this.state.token,
-          keycloakConfig: keycloakConfig,
-        });
+        try {
+          NativeModules.Aerogear.init(
+            { alias: jwtDecode(this.state.token).email },
+            () => {
+              this.props.navigation.navigate('InvitesList', {
+                token: this.state.token,
+                keycloakConfig: keycloakConfig,
+              });
+            },
+            () => {
+              console.log(arguments);
+            }
+          );
+        } catch (error) {
+          console.log(error);
+        }
       } else {
         this.props.navigation.navigate('Login', {
           keycloakConfig: keycloakConfig,
@@ -128,7 +142,7 @@ export default class LoadingScreen extends React.Component {
     if (this.state.isLoading) {
       return (
         <View style={styles.view}>
-          <Text>Loading...</Text>
+          <Text> Loading... </Text>
         </View>
       );
     } else {

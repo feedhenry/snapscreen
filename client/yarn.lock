@@ -3086,6 +3086,10 @@ react-devtools-core@^2.0.8:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
+react-native-config@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.4.1.tgz#cc0df29abd9372513bda25d6d68f3a1bb9f10e25"
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"

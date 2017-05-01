@@ -8,6 +8,7 @@ import {
   RefreshControl,
   StyleSheet,
   View,
+  DeviceEventEmitter,
 } from 'react-native';
 import {
   Body,
@@ -65,6 +66,10 @@ export default class InviteListScreen extends React.Component {
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
 
+    let _reloadInvites = invites => {
+      return this.setState({ dataSource: ds.cloneWithRows(invites) });
+    };
+
     this.state = { refreshing: false };
 
     Login.tokens()
@@ -74,16 +79,16 @@ export default class InviteListScreen extends React.Component {
         return this.setState({ userId: userId });
       })
       .then(() => {
-        getInvites()
-          .then(invites => {
-            this.setState({ dataSource: ds.cloneWithRows(invites) });
-          })
-          .catch(error => {
-            alert('Error loading invites: ' + JSON.stringify(error));
-          });
+        getInvites().then(_reloadInvites).catch(error => {
+          alert('Error loading invites: ' + JSON.stringify(error));
+        });
       });
 
-    // Initial load of invites
+    DeviceEventEmitter.addListener('onDefaultMessage', function(event) {
+      getInvites().then(_reloadInvites).catch(error => {
+        alert('Error loading invites: ' + JSON.stringify(error));
+      });
+    });
   }
 
   _getCurrentUserStatus(invitees) {
