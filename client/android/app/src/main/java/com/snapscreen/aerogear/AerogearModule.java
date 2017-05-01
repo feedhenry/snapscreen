@@ -2,6 +2,8 @@ package com.snapscreen.aerogear;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -20,9 +22,9 @@ import java.net.URI;
 
 public class AerogearModule extends ReactContextBaseJavaModule {
 
-    private final String VARIANT_ID       = "3e2c6bd7-cd69-49eb-bd9e-a9360e79f1a9";
-    private final String SECRET           = "15448edc-8896-4163-aca6-cbf783f9165b";
-    private final String GCM_SENDER_ID    = "842964426922";
+    private final String VARIANT_ID = "3e2c6bd7-cd69-49eb-bd9e-a9360e79f1a9";
+    private final String SECRET = "15448edc-8896-4163-aca6-cbf783f9165b";
+    private final String GCM_SENDER_ID = "842964426922";
     private final String UNIFIED_PUSH_URL = "http://ups-server-snapscreen.74.207.224.48.nip.io/ag-push/";
 
     public AerogearModule(ReactApplicationContext reactContext) {
@@ -40,24 +42,36 @@ public class AerogearModule extends ReactContextBaseJavaModule {
     public void init(ReadableMap config, final Callback successCallback, final Callback cancelCallback) {
 
         RegistrarManager.config("register", AeroGearFCMPushConfiguration.class)
-                    .setPushServerURI(URI.create(UNIFIED_PUSH_URL))
-                    .setSenderId(GCM_SENDER_ID)
-                    .setVariantID(VARIANT_ID)
-                    .setSecret(SECRET)
-                    .setAlias(config.getString("alias"))
-                    .asRegistrar();
+                .setPushServerURI(URI.create(UNIFIED_PUSH_URL))
+                .setSenderId(GCM_SENDER_ID)
+                .setVariantID(VARIANT_ID)
+                .setSecret(SECRET)
+                .setAlias(config.getString("alias"))
+                .asRegistrar();
 
         PushRegistrar registrar = RegistrarManager.getRegistrar("register");
         registrar.register(getCurrentActivity().getApplicationContext(), new org.jboss.aerogear.android.core.Callback<Void>() {
             @Override
             public void onSuccess(Void data) {
-                successCallback.invoke();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        successCallback.invoke();
+                    }
+                });
+
             }
 
             @Override
-            public void onFailure(Exception exception) {
-                Log.e("REGISTRATION", exception.getMessage(), exception);
-                cancelCallback.invoke(exception.getMessage());
+            public void onFailure(final Exception exception) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("REGISTRATION", exception.getMessage(), exception);
+                        cancelCallback.invoke(exception.getMessage());
+                    }
+                });
+
             }
         });
     }
@@ -74,7 +88,7 @@ public class AerogearModule extends ReactContextBaseJavaModule {
         RegistrarManager.unregisterMainThreadHandler(messageHandler);
     }
 
-    private static class ReactMessageHandler implements MessageHandler{
+    private static class ReactMessageHandler implements MessageHandler {
 
         Callback toCall;
 
