@@ -60,29 +60,16 @@ export default class LoadingScreen extends React.Component {
       .then(tokens => {
         if (tokens) {
           this.setState(
-            {
-              hasToken: true,
-              token: tokens['access_token'],
-            },
+            { hasToken: true, token: tokens['access_token'] },
             this._attemptNavigation
           );
         } else {
-          this.setState(
-            {
-              hasToken: false,
-            },
-            this._attemptNavigation
-          );
+          this.setState({ hasToken: false }, this._attemptNavigation);
         }
       })
       .catch(err => {
         console.log(err);
-        this.setState(
-          {
-            hasToken: false,
-          },
-          this._attemptNavigation
-        );
+        this.setState({ hasToken: false }, this._attemptNavigation);
       });
   }
 
@@ -95,47 +82,22 @@ export default class LoadingScreen extends React.Component {
           if (authorizationCode) {
             Login.retrieveTokens(authorizationCode)
               .then(resp => {
-                this.setState(
-                  {
-                    hasInitialUrl: true,
-                  },
-                  this._checkTokens
-                );
+                this.setState({ hasInitialUrl: true }, this._checkTokens);
               })
               .catch(error => {
                 console.log('Error in code exchange : ' + error);
-                this.setState(
-                  {
-                    hasInitialUrl: false,
-                  },
-                  this._checkTokens
-                );
+                this.setState({ hasInitialUrl: false }, this._checkTokens);
               });
           } else {
-            this.setState(
-              {
-                hasInitialUrl: false,
-              },
-              this._attemptNavigation
-            );
+            this.setState({ hasInitialUrl: false }, this._attemptNavigation);
           }
         } else {
-          this.setState(
-            {
-              hasInitialUrl: false,
-            },
-            this._attemptNavigation
-          );
+          this.setState({ hasInitialUrl: false }, this._attemptNavigation);
         }
       })
       .catch(err => {
         console.log(err);
-        this.setState(
-          {
-            hasInitialUrl: false,
-          },
-          this._checkTokens
-        );
+        this.setState({ hasInitialUrl: false }, this._checkTokens);
       });
   }
 
