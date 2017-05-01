@@ -5,10 +5,10 @@ var Invite = require('../models/inviteModel');
 var agSender = require('unifiedpush-node-sender');
 
 const settings = {
-  url: 'http://ups-server-snapscreen.74.207.224.48.nip.io/ag-push/',
-  applicationId: '5bc4aebd-d991-40fe-90f8-e17ed2e6c453',
-  masterSecret: '2aa47426-29c5-41ea-970f-32efb1a0f8b8',
-};
+    url: process.env.UPS_URL,
+    applicationId: process.env.UPS_APPLICATION_ID,
+    masterSecret: process.env.UPS_MASTER_SECRET
+  };
 
 exports.listUserInvites = function(req, res) {
   var userId = req.user_id;
