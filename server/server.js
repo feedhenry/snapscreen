@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var jwtDecoder = require('./middleware/jwtDecoder');
 var routes = require('./api/routes');
+require('dotenv').config();
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -13,7 +14,7 @@ var mongoHost = process.env.MONGOHOST || 'localhost';
 
 mongoose.Promise = global.Promise;
 mongoose.connect(
-  'mongodb://mongodb:mongodb@' + mongoHost + '/snapscreen',
+  'mongodb://' + process.env.MONGO_USER + ':' + process.env.MONGO_PASSWORD + '@' + mongoHost + '/snapscreen',
   function(err) {
     if (err)
       console.log(
