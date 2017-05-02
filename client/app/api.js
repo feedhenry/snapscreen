@@ -298,7 +298,7 @@ async function createInvite(invite) {
  * @returns {Promise} Does not need to return anything when resolved.
  */
 async function updateInvite(invite) {
-  return HttpClient.patch('invites', invite.id, invite)
+  return HttpClient.patch('invites', invite._id, invite)
     .then(invite => {
       return invite;
     })

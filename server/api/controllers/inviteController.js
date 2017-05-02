@@ -106,6 +106,7 @@ exports.updateInvite = function(req, res) {
     { new: true },
     function(err, invite) {
       if (err) res.status(500).send(err);
+      sendPushMessage(invite);
       res.json(invite);
     }
   );
