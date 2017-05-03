@@ -59,3 +59,40 @@ Additionally, to run your docker image in the background as a service/ daemon, s
 ### Checking your docker images ###
 
 You can check the status of docker images quite easily with the `docker ps` command. When run without any arguments `docker ps` will return a list of all running docker containers. To see all docker containers, running or stopped, simply use `docker ps -a`.
+
+### Checking your container logs ###
+
+To check the logs from your container, you can do so with the command `docker logs <container-id>` or with the `-f` flag: `docker logs -f <container-id>`
+
+### Getting inside your container ###
+
+To access a shell terminal within the container, you can do so with the command `docker exec -it <container id> /bin/bash`, with the `-it` flag denoting an interactive terminal, and `/bin/bash` signifying the shell to be used. 
+
+### Stopping your docker container ###
+
+To stop a docker container from running, use the command `docker stop <container-id>`. Note that this just stops the docker container running, it does not delete the docker container. If you wish to remove the docker container completely use `docker rm <container-id>` to remove the image. 
+
+`docker stop` gracefully stops the docker container, but if this does not work, you can stop the container more forcefully with `docker kill <container-id>`
+
+### Managing your docker images ###
+
+Docker images are the components from which your docker container will be created (the DockerFile specifies how it will be constructed; the docker image the what it will be constructed from). A docker image will typically be either the base OS component from which your container will be built with, or a saved image with applications/ software built on top of the base OS component (ie a final app, for example). 
+
+Docker provides a number of ways in which to manage your docker image files, and include the following commands:
+
+The typical workflow with docker will be to search/ choose which docker images you wish to use. These images are hosted on DockerHub and docker allows you to search for images, and either pull/ download those images to your local machine or specify those images in DockerFile's to be used to construct containers. Docker images on your local machine can then be searched for via the docker CLI. Useful commands include:
+
+* `docker search <name> # searches docker registry for docker image`
+* `docker search <search-string> | grep <grep-string> # narrows down search`
+* `docker pull <image name> # pulls image from docker registry and downloads it`
+* `docker images # shows all local docker images`
+* `docker images | grep <grep-string> # narrows down list with grep`
+* `docker images -a # show all images on this machine`
+* `docker rmi <image-name> # remove specified image from this machine`
+
+In order to push your own images to the docker registry, you should tag then, and then push them. You can also run an image directly from the registry:
+
+* `docker tag <image> username/repository:tag # Tag <image> for upload to registry`
+* `docker push username/repository:tag # Upload tagged image to registry`
+* `docker run username/repository:tag # Run image from a registry`
+
