@@ -36,6 +36,15 @@ You will need installed versions of:
 
 ## Docker ## 
 
+### Glossary of docker terminology ###
+
+<todo - add later>
+
+* docker container:
+* docker image:
+* docker host system: 
+*
+
 ### DockerFile ###
 
 Once choose the app you wish to containerise, you will then need to create a docker configuration file in the root of your app folder. This configuration file is the only file you will need to containerise your app. Simple instructions on how to create this file for a Node.js application are outlined [here](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/).
@@ -95,4 +104,17 @@ In order to push your own images to the docker registry, you should tag then, an
 * `docker tag <image> username/repository:tag # Tag <image> for upload to registry`
 * `docker push username/repository:tag # Upload tagged image to registry`
 * `docker run username/repository:tag # Run image from a registry`
+
+### Persistence of container data ###
+
+Docker containers are designed to be spun up and torn down quickly. When a container is torn down all data in that container goes with it. To persist data from your docker container, involves creating a folder on the docker host system and mounting that folder within the docker container, a little like a network drive. This host folder may be mounted within several containers, with all containers reading/ writing to the same data source. 
+
+First set up a volume on your docker host system:
+* `mkdir /var/dbfiles # make host folder`
+* `chmod o+rwx /var/dbfiles # open up permissions for folder`**
+* `chcon -t svirt_sandbox_file_t /var/dbfiles # change SELinux security context of the new /var/dbfiles directory`
+
+Once the volume has been set up on your host system, it can be mapped to the container by adding `-v <host-system-volume>:<folder-on-container>` when you run your container with `docker run`. An example of this with a mysql container might be something like: 
+* `docker run -d --name mysql -e MYSQL_DATBASE=items -e MYSQL_USER=user1 -p 30306:3306 -v /var/local/mysql:var/lib/mysql mysql`
+
 
