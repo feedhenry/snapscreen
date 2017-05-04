@@ -49,6 +49,19 @@ You will need installed versions of:
 
 Once choose the app you wish to containerise, you will then need to create a docker configuration file in the root of your app folder. This configuration file is the only file you will need to containerise your app. Simple instructions on how to create this file for a Node.js application are outlined [here](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/).
 
+#### DockerFile pro-tips ####
+
+* Create a non-root user so you are not using root within your container to execute everything. An example of what to add to your DockerFile to do this: 
+`RUN groupadd -r jboss -g 1000 && useradd -u 1000 -r -g jboss -m -d /opt/jboss -s /sbin/nologin -c "JBoss user" jboss && chmod 755 /opt/jboss # creates a userid '1000'`
+
+* If composing your DockerFile manually, like we are, it is worth noting that each command line in yoru DockerFile is considered a layer. The more layers, the longer the time which will be taken to build your container, thus it makes sense to keep the number of layers down by combining multiple terminal commands in each DockerFile docker commands with the `&&` command to string shell commands together. <todo-insert-example>
+
+* If you have multiple docker containers that are used together (like an app split among several component containers), it may make sense to have a have a build script file, that executes a `docker build` for each container you wish to build and the DockerFile you wish to build from. In these build script files, if a container is dependent on another container, it may make sense to have a 'wait' script in that build script, so if the other container is not up and running yet your script will wait until it is.  
+
+* If you want to add files to your docker container, you can use COPY or ADD. ADD will allow you to specify a URL so the files you are adding to your docker container do not necessarily have to be on your local system but can be from a web resource
+
+* Examples of other good practice when writing your DockerFile and the reasons for it: [8 ProTips to start killing it when dockerizing node js](https://nodesource.com/blog/8-protips-to-start-killing-it-when-dockerizing-node-js/)
+
 ### Building your docker image ###
 
 Once you have a DockerFile for your app, you now need to build your docker image. Do this by:
@@ -65,9 +78,15 @@ The `-p` flag above maps the port between your container and your host system, i
 
 Additionally, to run your docker image in the background as a service/ daemon, simply run the previous command with `-d --name <image-name>`, thus `docker run -d --name <image-name> -p 49160:8000 <your-username>/<your-app-name>`
 
+* As a sanity check to check that your app is accessible from the port you specified, a simple curl is useful, ie `curl http://localhost:49160`in the above example
+
+* As your use of containerisation increases, you may find it useful to house the `docker run` settings and commands within a dedicated shell script for running that container
+
 ### Checking your docker images ###
 
 You can check the status of docker images quite easily with the `docker ps` command. When run without any arguments `docker ps` will return a list of all running docker containers. To see all docker containers, running or stopped, simply use `docker ps -a`.
+
+* Tip: the name of the container returned by `docker ps` is a hash, and subsequent docker commands that accept that hash, a shortened version of that hash can be used. For example, '449c92c9683c' can simply be referred to as '449' 
 
 ### Checking your container logs ###
 
@@ -117,9 +136,47 @@ First set up a volume on your docker host system:
 Once the volume has been set up on your host system, it can be mapped to the container by adding `-v <host-system-volume>:<folder-on-container>` when you run your container with `docker run`. An example of this with a mysql container might be something like: 
 * `docker run -d --name mysql -e MYSQL_DATBASE=items -e MYSQL_USER=user1 -p 30306:3306 -v /var/local/mysql:var/lib/mysql mysql`
 
+* To automate things even further, the container folder to which you bind to might be a folder that is watched by the container and trigger some further setup actions within the container 
+
 ## Coordinating multi-container applications ##
 
+### Benefits of multi-container applications ###
 
+Splitting the components of an application among several containers can make sense. In doing so, applications can be scaled in a more fine-grained and efficient manner, where only the necessary components are scaled as opposed to the entire application. 
+
+This can lend itself to a micro-services approach, especially where application components can be split logically and easily, ie deploying a server and the db it uses in seperate containers for example. 
+
+### Obstacles with multi-container environments ### 
+
+Coordinating a multi-container environment is not without its obstacles. The issue of containers being able to communicate with each other is critical, and also the order in which containers are deployed is important when containers have dependencies on other containers.
+
+As containers receive new IP addresses each time they are run, a key issue tends to be synchronising IP addresses between containers. Docker handles this issue through the use of environmental variables, and the use of the `docker link` command which handles the syncing of environmental variables between containers. `docker link` defines env variables providing the IP address and TCP port of other containers and by linking containers you enable containers to access each others enviromental variables.
+
+* Tip: Use of a wait script inside containers that have dependencies on other containers, so they wait until their dependent containers have started up before they try access them via environmental variables. 
+
+### How to link containers ###
+
+`docker link` command used. Linking causes Docker to create several additional environment variables in the target container. 
+
+`docker run --link <container-name>:alias [other options] <image-name>`
+
+For example, we might link a wildfly container to a mysql container through the following:
+* Run a container called 'mysql': `docker run -d --name mysql -e MYSQL_DATBASE=items -e MYSQL_USER=user1 -p 30306:3306 -v /var/local/mysql:var/lib/mysql mysql` 
+* Run a container called 'wildfly' and link it to the container named 'mysql': `docker run --link mysql:db -d -e MYSQL_DB_NAME=items --name wildfly -p 30080:8080 do080/todoapp`
+* In the above example a container called 'wildfly' is then linked to the 'mysql' container and an alias of 'db' set for this 'mysql' container within 'wildfly'. The 'mysql' container can then subsequently referred to as 'db' within 'wildfly'
+
+#### Checking the env variables created by link ####
+
+As mentioned, linking creates environmental variables in the linking container for the linked container. To check these env variables that have been created, you can do so by:
+
+* Open a terminal in the linking container: `docker exec -it <name-of-linking-container> bash`
+* grep for created env variables: `env | grep <alias-for-linked-container>`
+
+For the previous example with wildfly and mysql, this would be done by:
+* `docker exec -it wildfly bash`
+* `env | grep DB`
+
+To summarise, with linking, the environmental variables of the child container (the one being linked to) are injected into the parent container (the one doing the linking) so the containers can find and communicate with each other.
 
 ## Orchestrating containers with Kubernetes ##
 
@@ -142,6 +199,5 @@ Once the volume has been set up on your host system, it can be mapped to the con
 
 
 ## Scaling an application ##
-
 
 
