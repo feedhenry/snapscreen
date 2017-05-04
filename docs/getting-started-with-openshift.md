@@ -180,6 +180,83 @@ To summarise, with linking, the environmental variables of the child container (
 
 ## Orchestrating containers with Kubernetes ##
 
+Docker offers the ability to coordinate multiple container applications through `docker link` and Kubernetes offers a powerful orchestration layer on top of docker, particularly its ability to offer orchestration and management of multiple docker hosts.
+
+### Overview/ architecture of Kubernetes ###
+
+<todo-insert-architecture-diagram>
+
+The above diagram outlines the elements of a Kubernetes cluster. A cluster is composed of at least one master, and one or more nodes. Each node in turn contains one or more pods, with each pod in turn containing one or more containers. On a very high level, the master controls the nodes, and it is the nodes that do the work. 
+
+#### Master ####
+
+A Kubernetes master acts as the controller in a cluster, and manages the workload and communication of the cluster. It provides a REST API and manipulates the cluster objects. The master will also house replication controllers, which control that the proper number of pods are running. The scheduler will also run in master, and serves to ensure that pods are evenly spread across the nodes. 
+
+#### Nodes ####
+
+A node is a server that does the work in a cluster. A node will typically house one or more pods, and services to access those pods. 
+
+
+#### Pods ####
+
+A pod is a tightly couple collection of containers & other resources that are grouped together, and also the smallest unit of work that can be scheduled on a cluster. Pods are generally exposed through a service, which provides a single ip-address:port group pair to access the group of pods associated with that service. Each pod will have its own private IP address, but pods will only be accessed through services. Also pods come and go over time, thus the private IP they are assigned will change. 
+
+#### Services ####
+
+A service is the interface which calls pod(s), which it generally picks in a round-robin fashion, and acts like a load-balancer to balance traffic between the pods. Services access pods through the labels that have been assigned to pods; these labels ensure consistent communication from services to pods, and services connect to any pods that have the labels specified for the service. Services will have their own IP address, through which they are accessed. 
+
+
+#### Persistence ####
+
+The docker solution of mounting a host folder inside the container works for a single host scenario but not for kubernetes, where a container inside a pod could run in many different hosts or nodes.
+
+
+#### Kubectl ####
+
+Kubectl is the cli for Kubernetes. Many of the kubectl commands map to their docker ones so you will be familiar with some of them already. Examples of some kubectl commands include:
+
+* `kubectl logs -f wildfly`
+* `kubectl exec -t wildfly bash`
+
+
+#### Nuances/ quirks of Kubernetes ####
+
+Containers remain even after pods deleted, thus the logs of these containers are still intact and can be accessed. These containers that have been left behind will need to be deleted manually however.
+
+
+
+#### WIP - points to review for inclusion above ####
+
+`kubectl create -f </path/to/json-or-yaml-file # resource files for pods/ services`
+
+
+kubernetes persistent volumes provision persistent network storage to pods that have been provisioned by the administrator 
+
+persistent volume claim is a request for storage by a user
+- claim can be satisfied by any persistent volume matching the size and concurrency specified
+- not created in the project that owns the application, but instead available to all applications running on the server
+- persistent volume claims get matched against persistent volumes (if the PV has enough to satisfy the claim)
+
+
+having a persistent volume claim at a project & not a pod scope allows the same persistent volume to be shared among many pods that may be in different containers (pods in containers?)
+
+A PersistentVolume (PV) is a piece of networked storage in the cluster that has been provisioned by an administrator. It is a resource in the cluster just like a node is a cluster resource.
+
+A PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar to a pod. Pods consume node resources and PVCs consume PV resources. Pods can request specific levels of resources (CPU and Memory). Claims can request specific size and access modes (e.g., can be mounted once read/write or many times read-only).
+
+Services - specify the port that is exposed, and send requests onto any pods that match the label it specifies
+- port is what port is exposed
+- nodePort is also what is exposed to the host
+
+
+pods specify an image name of a container (and it is this container image the pod will be built from)
+
+- kubernetes will inject the runtime information for the ip & port, just like docker did
+
+- necessary in order to run commands in order of dependencies>
+
+
+
 
 
 ## Enterprise featues of OpenShift ##
