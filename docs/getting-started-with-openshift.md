@@ -117,4 +117,31 @@ First set up a volume on your docker host system:
 Once the volume has been set up on your host system, it can be mapped to the container by adding `-v <host-system-volume>:<folder-on-container>` when you run your container with `docker run`. An example of this with a mysql container might be something like: 
 * `docker run -d --name mysql -e MYSQL_DATBASE=items -e MYSQL_USER=user1 -p 30306:3306 -v /var/local/mysql:var/lib/mysql mysql`
 
+## Coordinating multi-container applications ##
+
+
+
+## Orchestrating containers with Kubernetes ##
+
+
+
+## Enterprise featues of OpenShift ##
+
+
+
+## OSE Web Console ##
+
+
+
+## Source-to-Image ##
+
+
+
+## OpenShift CLI client ##
+
+
+
+## Scaling an application ##
+
+
 
