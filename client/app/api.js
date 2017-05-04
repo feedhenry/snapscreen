@@ -1,5 +1,15 @@
-import HttpClient from './HttpClient';
+import axios from 'axios';
+import Config from 'react-native-config';
+import Login from 'react-native-login';
 
+var api = axios.create({
+  baseURL: Config.API_URL,
+});
+
+async function getHeaders() {
+  let tokens = await Login.tokens();
+  return { Authorization: `Bearer ${tokens.access_token}` };
+}
 
 /**
  * Create a new invite and notify invitees.
@@ -9,12 +19,10 @@ import HttpClient from './HttpClient';
  * @returns {Promise} Does not need to return anything when resolved.
  */
 async function createInvite(invite) {
-  return HttpClient.post('invites', invite)
-    .then(invite => {
-      return invite;
-    })
-    .catch(error => {
-      console.log(error);
+  return api
+    .post('/invites', invite, { headers: await getHeaders() })
+    .then(response => {
+      return response.data;
     });
 }
 
@@ -27,12 +35,10 @@ async function createInvite(invite) {
  * @returns {Promise} Does not need to return anything when resolved.
  */
 async function updateInvite(invite) {
-  return HttpClient.patch('invites', invite._id, invite)
-    .then(invite => {
-      return invite;
-    })
-    .catch(error => {
-      console.log(error);
+  return api
+    .patch(`/invites/${invite._id}`, invite, { headers: await getHeaders() })
+    .then(response => {
+      return response.data;
     });
 }
 
@@ -43,13 +49,10 @@ async function updateInvite(invite) {
  * when resolved.
  */
 async function getInvites() {
-  return HttpClient.get('invites')
-    .then(invites => {
-      return invites;
-    })
-    .catch(error => {
-      console.log(error);
-    });
+  let headers = await getHeaders();
+  return api.get('/invites', { headers }).then(response => {
+    return response.data;
+  });
 }
 
 /**
@@ -61,17 +64,19 @@ async function getInvites() {
  * when resolved.
  */
 async function getTheaters(lat, long) {
-  return HttpClient.get('cinemas', { lat, lng: long })
-    .then(cinemas => {
+  return api
+    .get('/cinemas', {
+      params: { lat, lng: long },
+      headers: await getHeaders(),
+    })
+    .then(response => {
+      var cinemas = response.data;
       cinemas.forEach(function(cinema) {
         cinema.address = cinema.location.address.display_text;
         cinema.lat = cinema.location.lat;
         cinema.long = cinema.location.lon;
       }, this);
       return cinemas;
-    })
-    .catch(error => {
-      console.log(error);
     });
 }
 
@@ -84,15 +89,13 @@ async function getTheaters(lat, long) {
  * `mockMovieShowtimeData` when resolved.
  */
 async function getMovieShowtimes(theaterID, date) {
-  return HttpClient.get('movies', {
-    cinema_id: theaterID,
-    date: date,
-  })
-    .then(movies => {
-      return movies;
+  return api
+    .get('/movies', {
+      params: { cinema_id: theaterID, date: date },
+      headers: await getHeaders(),
     })
-    .catch(error => {
-      console.log(error);
+    .then(response => {
+      return response.data;
     });
 }
 
