@@ -196,20 +196,44 @@ A Kubernetes master acts as the controller in a cluster, and manages the workloa
 
 A node is a server that does the work in a cluster. A node will typically house one or more pods, and services to access those pods. 
 
-
 #### Pods ####
 
-A pod is a tightly couple collection of containers & other resources that are grouped together, and also the smallest unit of work that can be scheduled on a cluster. Pods are generally exposed through a service, which provides a single ip-address:port group pair to access the group of pods associated with that service. Each pod will have its own private IP address, but pods will only be accessed through services. Also pods come and go over time, thus the private IP they are assigned will change. 
+A pod is a tightly couple collection of containers & other resources that are grouped together, and also the smallest unit of work that can be scheduled on a cluster. Pods specify an image name of a container (and it is this container image the pod will be built from). Pods are generally exposed through a service, which provides a single ip-address:port group pair to access the group of pods associated with that service. Each pod will have its own private IP address, but pods will only be accessed through services. Also pods come and go over time, thus the private IP they are assigned will change. 
+
+<need-code-here-to-illustrate>
 
 #### Services ####
 
-A service is the interface which calls pod(s), which it generally picks in a round-robin fashion, and acts like a load-balancer to balance traffic between the pods. Services access pods through the labels that have been assigned to pods; these labels ensure consistent communication from services to pods, and services connect to any pods that have the labels specified for the service. Services will have their own IP address, through which they are accessed. 
+A service is the interface which calls pod(s), which it generally picks in a round-robin fashion, and acts like a load-balancer to balance traffic between the pods. Services access pods through the labels that have been assigned to pods; these labels ensure consistent communication from services to pods, and services connect to any pods that have the labels specified for the service. 
 
+Services will have their own IP address, through which they are accessed and send requests onto any pods that match the label it specifies. Labels are effectively how services keep track of pods they can route traffic onto, and provide a consistent way for services to communicate with pods given the IP address of a pod cannot be relied upon (containers and pods receive new IP addresses each time they are run). Through labels, Kubernetes will inject the runtime information for the ip & port, just like docker did.
+
+For example, if we have a service that routes traffic onto instances of our application server (called 'myApp'), we would specify that 'myApp' label in our service, so all traffic would be redirected onto resources that match that label. 
+
+<need-code-here-to-illustrate>
 
 #### Persistence ####
 
 The docker solution of mounting a host folder inside the container works for a single host scenario but not for kubernetes, where a container inside a pod could run in many different hosts or nodes.
 
+Kubernetes addresses the issue of persistence with persistent volumes (PVs) and persistent volumes claims. A PV is effectively a chunk of storage space you set aside for all your projects, and when pods and pod components require storage they request so through a PV claim. If the PV claim can be satisfied by the PV reources available, the claim is satisfied. After the pod/ resource no longer requires that storage (the container is taken down/ goes down), that storage from the PV claim is released back to the PV resource pool. 
+
+<need-code-here-to-illustrate>
+
+***Persistent volumes (PVs)*** :
+* Kubernetes persistent volumes provision persistent network storage to pods that have been provisioned by the administrator 
+
+***Persistent volume claims (PV Claims)*** :
+* a persistent volume claim is a request for storage by a user
+* a claim can be satisfied by any persistent volume matching the size and concurrency specified
+* not created in the project that owns the application, but instead available to all applications running on the server
+* persistent volume claims get matched against persistent volumes (if the PV has enough to satisfy the claim)
+
+The benefits of the having a persistent volume claim at a project and not a pod scope allows the same persistent volume to be shared among many different pods and containers (but not at the same time). 
+
+In summary:
+* A PersistentVolume (PV) is a piece of networked storage in the cluster that has been provisioned by an administrator. It is a resource in the cluster just like a node is a cluster resource. 
+* A PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar to a pod. Pods consume node resources and PVCs consume PV resources. Pods can request specific levels of resources (CPU and Memory). Claims can request specific size and access modes (e.g., can be mounted once read/write or many times read-only).
 
 #### Kubectl ####
 
@@ -222,42 +246,6 @@ Kubectl is the cli for Kubernetes. Many of the kubectl commands map to their doc
 #### Nuances/ quirks of Kubernetes ####
 
 Containers remain even after pods deleted, thus the logs of these containers are still intact and can be accessed. These containers that have been left behind will need to be deleted manually however.
-
-
-
-#### WIP - points to review for inclusion above ####
-
-`kubectl create -f </path/to/json-or-yaml-file # resource files for pods/ services`
-
-
-kubernetes persistent volumes provision persistent network storage to pods that have been provisioned by the administrator 
-
-persistent volume claim is a request for storage by a user
-- claim can be satisfied by any persistent volume matching the size and concurrency specified
-- not created in the project that owns the application, but instead available to all applications running on the server
-- persistent volume claims get matched against persistent volumes (if the PV has enough to satisfy the claim)
-
-
-having a persistent volume claim at a project & not a pod scope allows the same persistent volume to be shared among many pods that may be in different containers (pods in containers?)
-
-A PersistentVolume (PV) is a piece of networked storage in the cluster that has been provisioned by an administrator. It is a resource in the cluster just like a node is a cluster resource.
-
-A PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar to a pod. Pods consume node resources and PVCs consume PV resources. Pods can request specific levels of resources (CPU and Memory). Claims can request specific size and access modes (e.g., can be mounted once read/write or many times read-only).
-
-Services - specify the port that is exposed, and send requests onto any pods that match the label it specifies
-- port is what port is exposed
-- nodePort is also what is exposed to the host
-
-
-pods specify an image name of a container (and it is this container image the pod will be built from)
-
-- kubernetes will inject the runtime information for the ip & port, just like docker did
-
-- necessary in order to run commands in order of dependencies>
-
-
-
-
 
 ## Enterprise featues of OpenShift ##
 
@@ -278,3 +266,9 @@ pods specify an image name of a container (and it is this container image the po
 ## Scaling an application ##
 
 
+# Random miscellany #
+
+
+`kubectl create -f </path/to/json-or-yaml-file # resource files for pods/ services`
+
+- necessary in order to run commands in order of dependencies>
