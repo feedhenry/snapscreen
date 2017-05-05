@@ -25,7 +25,6 @@ import {
 } from 'native-base';
 import { getInvites } from '../api';
 import { formatShowtime } from '../utils';
-import jwtDecode from 'jwt-decode';
 
 const styles = {
   accepted: {
@@ -58,25 +57,13 @@ function capitalize(string) {
 
 export default class InviteListScreen extends React.Component {
   static navigationOptions = {
-    title: 'Invites',
+    title: 'SnapScreen',
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { refreshing: false };
-
-    // TODO: This should be moved outside of this component and the user ID
-    // should be passed in as a prop
-    Login.tokens()
-      .then(token => {
-        let accessToken = token['access_token'];
-        let userId = jwtDecode(accessToken).email;
-        return this.setState({ userId });
-      })
-      .catch(error => {
-        alert('Error getting user ID: ' + JSON.stringify(error));
-      });
-
+    this.currentUserID = this.props.navigation.state.params.currentUserID;
     this._refreshData(true);
 
     // Handle push notifications
@@ -100,12 +87,8 @@ export default class InviteListScreen extends React.Component {
   }
 
   _getCurrentUserStatus(invitees) {
-    let invitation = invitees.find(user => user.id === this.state.userId);
-    if (!invitation) {
-      return 'Not Invited';
-    } else {
-      return invitation.status;
-    }
+    let invitation = invitees.find(user => user.id === this.currentUserID);
+    return invitation.status;
   }
 
   _renderItem({ item }) {
@@ -114,7 +97,7 @@ export default class InviteListScreen extends React.Component {
         onPress={() =>
           this.props.navigation.navigate('InviteDetail', {
             invite: item,
-            currentUserID: this.state.userId,
+            currentUserID: this.currentUserID,
           })}
       >
         <Image
@@ -126,7 +109,7 @@ export default class InviteListScreen extends React.Component {
           <Text note>{formatShowtime(item.showtime.time)}</Text>
 
           <Choose>
-            <When condition={item.organizer.id === this.state.userId}>
+            <When condition={item.organizer.id === this.currentUserID}>
               <Text note style={styles.organizer}>Organizer</Text>
             </When>
             <Otherwise>
@@ -148,7 +131,6 @@ export default class InviteListScreen extends React.Component {
 
   render() {
     if (this.state.invites) {
-      // TODO: Replace with FlatList when we upgrade to react-native >= 0.43
       return (
         <Container>
           <Content>
