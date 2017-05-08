@@ -247,7 +247,18 @@ Kubectl is the cli for Kubernetes. Many of the kubectl commands map to their doc
 
 Containers remain even after pods deleted, thus the logs of these containers are still intact and can be accessed. These containers that have been left behind will need to be deleted manually however.
 
-## Enterprise featues of OpenShift ##
+## PaaS and OpenShift ##
+
+### PaaS (Platform as a Service) ###
+
+PaaS is a category of cloud computing services that provides a platform that allows customers to develop, run and manage applications without the infrastructure typically associated with developing and running an app. It helps developers by eliminating the wait time for the environment, provisioning and testing. 
+
+OpenShift Enterprise is Red Hat's PaaS offering.
+
+### Benefits that OpenShift beings ###
+
+Simplified multi-container integration
+
 
 
 

@@ -1,0 +1,1 @@
+# OpenShift in 30 mins #
