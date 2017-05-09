@@ -1,0 +1,5 @@
+# node modules
+node_modules
+
+# yarn auto-gen files
+yarn.lock
