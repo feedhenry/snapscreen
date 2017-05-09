@@ -1,4 +1,4 @@
-# Docker in 30 mins #
+# Docker in 30 mins with a Node.JS application #
 
 To start using docker for your application(s), you will need Docker installed on your machine and optionally a Dockerhub account to host your docker image.
 
@@ -12,9 +12,7 @@ Before you continue, ensure you can run the docker hello-world example by runnin
 
 ### DockerFile ###
 
-To containerise your app you will need a DockerFile for your app. Do this by:
-
-* Create file named 'DockerFile' in the root of your app directory with the following:
+To containerise your app you will need a DockerFile for your app. Create a file named 'DockerFile' in the root of your app directory with the following content:
 
 > FROM node:6.10.2-alpine
 > 
@@ -45,7 +43,7 @@ Run the following from the root of your app directory:
 
 * `docker build -t <your-username>/<your-app-name> .`
 
-If you have any errors re the location of your DockerFile, you may need to specify the path to your DockerFile:
+If you have any errors regaring the location of your DockerFile, you may need to specify the path to your DockerFile:
 
 * `docker build -t <your-username>/<your-app-name> -f <location-and-path-of-dockerfile> .`
 
@@ -56,15 +54,13 @@ Once your docker container is built run it with:
 
 * `docker run -p 49160:8000 <your-username>/<your-app-name>`
 
-** the above presumes you also wish to map port 8000 in your container image to port 49160 on your local machine.
+** the above presumes 8000 is the port number your nodejs app runs on, and that you wish to map it to port 49160 on your local machine.
 
-Test your app by navigating to localhost:49160 
-
-Congratulations - you have just built and run your first containerised app!
+If you have been successful, you will now be able to access your app through port 49160 - congratulations, you have just built and run your first containerised app!
 
 ### Check your containers ###
 
-To return a list of all running docker containers run:
+To return a list of all running docker containers (and retrieve the id of your container):
 
 * `docker ps`
 
@@ -90,6 +86,19 @@ To delete a docker container image once stopped run:
 
 * `docker rm <container-id>`
 
-## Saving images to DockerHub ##
+## (Optional) DockerHub ##
 
-## Troubleshooting steps ##
+To host your container images on dockerhub, ensure you have a dockerhub account, then:
+
+* `docker login`
+* `docker tag <container-id> <dockerhub-username>/<repo-name>`
+* `docker push <dockerhub-username>/<repo-name>`
+
+## Troubleshooting tips ##
+
+If you encounter any errors the docker error messages are generally helpful enough to diagnose and resolve the issue. Some issues that were encountered included:
+
+* the need to pass in an insecure registry flag when running the docker service daemon
+* the need to disable SELinux when running the docker service daemon
+* the need to change the permissions of the UNIX socket the docker daemon is listening to
+
