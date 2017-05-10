@@ -16,7 +16,7 @@ Bring up your cluster by running:
 
 If successful you should see output like the following:
 
-<insert-terminal-output-image>
+![terminal-output](images/oc-cluster-up.png)
 
 ### Troubleshooting ###
 
@@ -40,15 +40,11 @@ In the OpenShift console you should see your app spinning up in its pod.
 
 To access your app, you will need to create an external-facing route to it. Do this by:
 
-* 
+* `oc expose service/<name> --hostname=<www.example.com>`
 
-##  ##
+Congratulations! You have now deployed your app on OpenShift and should be able to 
 
+## Bringing down your cluster ##
 
+To bring down your cluster `oc cluster down` will do so.
 
-##  ##
-
-
-## (Optional) Install the oc-cluster wrapper ##
-
-Download the the oc-cluster wrapper and place it in your path. This will provide some necessary defaults to get us up and running quickly. 
