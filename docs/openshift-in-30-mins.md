@@ -16,7 +16,8 @@ Bring up your cluster by running:
 
 If successful you should see output like the following:
 
-![terminal-output](images/oc-cluster-up.png)
+![terminal-output](https://s11.postimg.org/pzt4nepw3/oc-cluster-up.png)
+
 
 ### Troubleshooting ###
 
@@ -28,7 +29,10 @@ If you encounter any errors the error messages are generally helpful enough to d
 
 Once you have successfully brought your cluster up you should be able to access the OpenShift console through the url specified at the end of your `oc cluster up` log. 
 
-<insert-image-of-openshift-console>
+![openshift-console](https://s11.postimg.org/4fxzt7uz7/openshift-opening-screen.png)  
+
+![openshift-console](https://s11.postimg.org/txgectcpf/openshift-dashboard.png)
+
 
 ## Deploy your app to OpenShift ##
 
@@ -38,13 +42,29 @@ Deploy your app by executing:
 
 In the OpenShift console you should see your app spinning up in its pod. 
 
-To access your app, you will need to create an external-facing route to it. Do this by:
+To access your app, you will need to create an external-facing route to it. Do this through the cli with:
 
 * `oc expose service/<name> --hostname=<www.example.com>`
 
-Congratulations! You have now deployed your app on OpenShift and should be able to 
+You can also set up a route through the openshift console:
+
+![openshift-console](https://s11.postimg.org/9fvg160lv/select-routes.png)  
+
+![openshift-console](https://s11.postimg.org/kzvofgk9f/create-route.png)  
+
+Congratulations! You have now deployed your app on OpenShift and should be able to access yoru deployed app through the route you specified.
 
 ## Bringing down your cluster ##
 
-To bring down your cluster `oc cluster down` will do so.
+To bring down your cluster `oc cluster down` will take down your cluster.
+
+## Summary & further reading ##
+
+Through the above steps you should have:
+
+* Installed OpenShift locally
+* Installed the OC CLI to interact with your OpenShift cluster
+* Brought up your local cluster and deployed a Node.JS app
+* Created a route/ url to access your app
+
 
