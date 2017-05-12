@@ -2,11 +2,15 @@
 
 To start using docker for your application(s), you will need Docker installed on your machine and optionally a Dockerhub account to host your docker image.
 
+
 ## Installing Docker ##
 
 Install docker. A list of the supported platforms and instructions for installing docker on those platforms are located [here](https://docs.docker.com/engine/installation/#supported-platforms).  
 
-Before you continue, ensure you can run the docker hello-world example by running `sudo docker run hello-world` in a terminal.
+Before you continue, ensure you can run the docker hello-world example by running `sudo docker run hello-world` in a terminal. You should see an output like the below:
+
+![](https://s24.postimg.org/vumoh4zw5/Selection_103.png)
+
 
 ## Containerising your app ##
 
@@ -37,6 +41,7 @@ To containerise your app you will need a DockerFile for your app. Create a file 
 > &nbsp;&nbsp;&nbsp;&nbsp;"start": "node app.js"  
 >  },
 
+
 ## Build your app docker container ##
 
 Run the following from the root of your app directory:
@@ -47,6 +52,10 @@ If you have any errors regaring the location of your DockerFile, you may need to
 
 * `docker build -t <your-username>/<your-app-name> -f <location-and-path-of-dockerfile> .`
 
+You should see an output like the following:
+
+![](https://s24.postimg.org/eimbvp6et/Selection_104.png)
+
 
 ### Run your container app ###
 
@@ -54,9 +63,14 @@ Once your docker container is built run it with:
 
 * `docker run -p 49160:8000 <your-username>/<your-app-name>`
 
+Sample output should resemble:
+
+![](https://s24.postimg.org/z45p1cddh/Selection_105.png)
+
 ** the above presumes 8000 is the port number your nodejs app runs on, and that you wish to map it to port 49160 on your local machine.
 
 If you have been successful, you will now be able to access your app through port 49160 - congratulations, you have just built and run your first containerised app!
+
 
 ### Check your containers ###
 
@@ -64,17 +78,23 @@ To return a list of all running docker containers (and retrieve the id of your c
 
 * `docker ps`
 
+![](https://s11.postimg.org/ff7rc7w7n/Selection_110.png)
+
 ### Checking your container logs ###
 
 To check the logs from your container run: 
 
 * `docker logs -f <container-id>`
 
+![](https://s24.postimg.org/erjwlmj79/Selection_108.png)
+
+
 ### Getting inside your container ###
 
 To access a bash terminal within the container run:
 
 * `docker exec -it <container id> /bin/bash`
+
 
 ### Stopping your docker container ###
 
@@ -86,13 +106,17 @@ To delete a docker container image once stopped run:
 
 * `docker rm <container-id>`
 
+
 ## (Optional) DockerHub ##
 
-To host your container images on dockerhub, ensure you have a dockerhub account, then:
+To host your container images on DockerHub, ensure you have a dockerhub account, then:
 
 * `docker login`
 * `docker tag <container-id> <dockerhub-username>/<repo-name>`
 * `docker push <dockerhub-username>/<repo-name>`
+
+![](https://s24.postimg.org/ljaboh86t/Selection_109.png)
+
 
 ## Troubleshooting tips ##
 
@@ -101,4 +125,3 @@ If you encounter any errors the docker error messages are generally helpful enou
 * the need to pass in an insecure registry flag when running the docker service daemon
 * the need to disable SELinux when running the docker service daemon
 * the need to change the permissions of the UNIX socket the docker daemon is listening to
-
