@@ -1,22 +1,22 @@
 # Docker in 30 mins with a Node.JS application #
 
-To start using docker for your application(s), you will need Docker installed on your machine and optionally a Dockerhub account to host your docker image.
+To start using docker for your application(s), you will need Docker installed on your machine and optionally a Docker Hub account to host your docker image.
 
 
-## Installing Docker ##
+## Prerequisites ##
 
 Install docker. A list of the supported platforms and instructions for installing docker on those platforms are located [here](https://docs.docker.com/engine/installation/#supported-platforms).  
 
-Before you continue, ensure you can run the docker hello-world example by running `sudo docker run hello-world` in a terminal. You should see an output like the below:
+Before you continue, ensure you can run the docker hello-world example by running `docker run hello-world` in a terminal. You should see an output like the below:
 
 ![hello-world-output](https://s24.postimg.org/vumoh4zw5/Selection_103.png)
 
 
 ## Containerising your app ##
 
-### DockerFile ###
+### Dockerfile ###
 
-To containerise your app you will need a DockerFile for your app. Create a file named 'DockerFile' in the root of your app directory with the following content:
+To containerise your app you will need a Dockerfile for your app. Create a file named 'Dockerfile' in the root of your app directory with the following content:
 
 > FROM node:6.10.2-alpine
 > 
@@ -107,9 +107,9 @@ To delete a docker container image once stopped run:
 * `docker rm <container-id>`
 
 
-## (Optional) DockerHub ##
+## (Optional) (Docker Hub)[https://hub.docker.com/] ##
 
-To host your container images on DockerHub, ensure you have a dockerhub account, then:
+To host your container images on Docker Hub, ensure you have a dockerhub account, then:
 
 * `docker login`
 * `docker tag <container-id> <dockerhub-username>/<repo-name>`
