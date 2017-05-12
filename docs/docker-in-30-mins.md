@@ -9,7 +9,7 @@ Install docker. A list of the supported platforms and instructions for installin
 
 Before you continue, ensure you can run the docker hello-world example by running `sudo docker run hello-world` in a terminal. You should see an output like the below:
 
-![](https://s24.postimg.org/vumoh4zw5/Selection_103.png)
+![hello-world-output](https://s24.postimg.org/vumoh4zw5/Selection_103.png)
 
 
 ## Containerising your app ##
@@ -54,7 +54,7 @@ If you have any errors regaring the location of your DockerFile, you may need to
 
 You should see an output like the following:
 
-![](https://s24.postimg.org/eimbvp6et/Selection_104.png)
+![build-output](https://s24.postimg.org/eimbvp6et/Selection_104.png)
 
 
 ### Run your container app ###
@@ -65,7 +65,7 @@ Once your docker container is built run it with:
 
 Sample output should resemble:
 
-![](https://s24.postimg.org/z45p1cddh/Selection_105.png)
+![running-your-container](https://s24.postimg.org/z45p1cddh/Selection_105.png)
 
 ** the above presumes 8000 is the port number your nodejs app runs on, and that you wish to map it to port 49160 on your local machine.
 
@@ -78,7 +78,7 @@ To return a list of all running docker containers (and retrieve the id of your c
 
 * `docker ps`
 
-![](https://s11.postimg.org/ff7rc7w7n/Selection_110.png)
+![docker-ps-output](https://s11.postimg.org/ff7rc7w7n/Selection_110.png)
 
 ### Checking your container logs ###
 
@@ -86,7 +86,7 @@ To check the logs from your container run:
 
 * `docker logs -f <container-id>`
 
-![](https://s24.postimg.org/erjwlmj79/Selection_108.png)
+![docker-logs-output](https://s24.postimg.org/erjwlmj79/Selection_108.png)
 
 
 ### Getting inside your container ###
@@ -115,7 +115,7 @@ To host your container images on DockerHub, ensure you have a dockerhub account,
 * `docker tag <container-id> <dockerhub-username>/<repo-name>`
 * `docker push <dockerhub-username>/<repo-name>`
 
-![](https://s24.postimg.org/ljaboh86t/Selection_109.png)
+![dockerhub-login](https://s24.postimg.org/ljaboh86t/Selection_109.png)
 
 
 ## Troubleshooting tips ##
