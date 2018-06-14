@@ -3,12 +3,12 @@ import Login from 'react-native-login';
 import {
   ActivityIndicator,
   Button,
+  DeviceEventEmitter,
+  FlatList,
   Image,
-  ListView,
   RefreshControl,
   StyleSheet,
   View,
-  DeviceEventEmitter,
 } from 'react-native';
 import {
   Body,
@@ -25,7 +25,6 @@ import {
 } from 'native-base';
 import { getInvites } from '../api';
 import { formatShowtime } from '../utils';
-import jwtDecode from 'jwt-decode';
 
 const styles = {
   accepted: {
@@ -58,55 +57,47 @@ function capitalize(string) {
 
 export default class InviteListScreen extends React.Component {
   static navigationOptions = {
-    title: 'Invites',
+    title: 'SnapScreen',
   };
+
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-    });
-
-    let _reloadInvites = invites => {
-      return this.setState({ dataSource: ds.cloneWithRows(invites) });
-    };
-
     this.state = { refreshing: false };
+    this.currentUserID = this.props.navigation.state.params.currentUserID;
+    this._refreshData(true);
 
-    Login.tokens()
-      .then(token => {
-        let accessToken = token['access_token'];
-        let userId = jwtDecode(accessToken).email;
-        return this.setState({ userId: userId });
+    // Handle push notifications
+    DeviceEventEmitter.addListener(
+      'onDefaultMessage',
+      this._refreshData.bind(this)
+    );
+  }
+
+  _refreshData(initialLoad = false) {
+    if (!initialLoad) {
+      this.setState({ refreshing: true });
+    }
+    getInvites()
+      .then(invites => {
+        this.setState({ invites: invites, refreshing: false });
       })
-      .then(() => {
-        getInvites().then(_reloadInvites).catch(error => {
-          alert('Error loading invites: ' + JSON.stringify(error));
-        });
+      .catch(error => {
+        alert('Error refreshing invites.' + JSON.stringify(error));
       });
-
-    DeviceEventEmitter.addListener('onDefaultMessage', function(event) {
-      getInvites().then(_reloadInvites).catch(error => {
-        alert('Error loading invites: ' + JSON.stringify(error));
-      });
-    });
   }
 
   _getCurrentUserStatus(invitees) {
-    let invitation = invitees.find(user => user.id === this.state.userId);
-    if (!invitation) {
-      return 'Not Invited';
-    } else {
-      return invitation.status;
-    }
+    let invitation = invitees.find(user => user.id === this.currentUserID);
+    return invitation.status;
   }
 
-  _renderRow(item) {
+  _renderItem({ item }) {
     return (
       <ListItem
         onPress={() =>
           this.props.navigation.navigate('InviteDetail', {
             invite: item,
-            currentUserID: this.state.userId,
+            currentUserID: this.currentUserID,
           })}
       >
         <Image
@@ -118,7 +109,7 @@ export default class InviteListScreen extends React.Component {
           <Text note>{formatShowtime(item.showtime.time)}</Text>
 
           <Choose>
-            <When condition={item.organizer.id === this.state.userId}>
+            <When condition={item.organizer.id === this.currentUserID}>
               <Text note style={styles.organizer}>Organizer</Text>
             </When>
             <Otherwise>
@@ -130,7 +121,6 @@ export default class InviteListScreen extends React.Component {
               </Text>
             </Otherwise>
           </Choose>
-
         </Body>
         <Right style={styles.listArrow}>
           <Icon name="arrow-forward" />
@@ -138,34 +128,18 @@ export default class InviteListScreen extends React.Component {
       </ListItem>
     );
   }
-  _refreshData() {
-    this.setState({ refreshing: true });
-    getInvites()
-      .then(invites => {
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(invites),
-          refreshing: false,
-        });
-      })
-      .catch(error => {
-        console.log('Error refreshing invites.');
-      });
-  }
+
   render() {
-    if (this.state.dataSource) {
-      // TODO: Replace with FlatList when we upgrade to react-native >= 0.43
+    if (this.state.invites) {
       return (
         <Container>
           <Content>
-            <ListView
-              dataSource={this.state.dataSource}
-              renderRow={this._renderRow.bind(this)}
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.refreshing}
-                  onRefresh={this._refreshData.bind(this)}
-                />
-              }
+            <FlatList
+              data={this.state.invites}
+              renderItem={this._renderItem.bind(this)}
+              refreshing={this.state.refreshing}
+              onRefresh={this._refreshData.bind(this)}
+              keyExtractor={item => item._id}
             />
           </Content>
           {/* TODO: This button needs something like TouchableOpacitiy -
