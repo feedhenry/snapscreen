@@ -2,7 +2,8 @@
 This repository has been deprecated and is not being maintained. It should not be used. If you have any questions, please get in touch with the collaborators.
 
 # SnapScreen 
-SnapScreen is a project which demonstrates how to use Keycloak, AeroGear Unified Push Server, and OpenShift with React Native.  
+SnapScreen is a project which demonstrates how to use Keycloak, AeroGear Unified Push Server, and OpenShift with React Native. It was created as a demo app for the Red Hat Summit 2017.  
+
 # Installation
 
 ## Installing OpenShift
